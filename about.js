@@ -343,3 +343,26 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
     location.href='watch.html?v='+encodeURIComponent(id)+(label?'&t='+encodeURIComponent(label):'');
   });
 })();
+/* ===== 7) ألوان بطاقات الشعب ===== */
+(function(){
+  var COL={
+    'علوم تجريبية':['#4ade80','#16a34a'],
+    'رياضيات':['#60a5fa','#1d4ed8'],
+    'تسيير واقتصاد':['#fb923c','#ea580c'],
+    'تقني رياضي':['#facc15','#ca8a04']
+  };
+  var st=document.createElement('style');
+  st.textContent=''
+  +'.b[data-b]{border-color:var(--bc)!important;animation:bcglow 2.8s ease-in-out infinite}'
+  +'.b[data-b]:hover,.b[data-b]:focus-visible{border-color:var(--bc)!important;box-shadow:0 0 18px var(--bc),0 12px 30px var(--bc)}'
+  +'.b[data-b] .pi{background:linear-gradient(145deg,var(--bl),var(--bd))!important;box-shadow:0 12px 24px var(--bc)}'
+  +'@keyframes bcglow{0%,100%{box-shadow:0 0 6px var(--bc),0 0 14px var(--bc)}50%{box-shadow:0 0 12px var(--bc),0 0 26px var(--bc)}}';
+  document.head.appendChild(st);
+  document.querySelectorAll('.b[data-b]').forEach(function(el){
+    var c=COL[el.getAttribute('data-b')];
+    if(!c) return;
+    el.style.setProperty('--bc',c[0]);
+    el.style.setProperty('--bl',c[0]);
+    el.style.setProperty('--bd',c[1]);
+  });
+})();
