@@ -174,7 +174,7 @@ if(L.length&&amCard){
   box.appendChild(a);
 }
 
-/* بطاقتا الأستاذ عبد الله وسلسلة الميزان: فيديو مباشر */
+/* بطاقات الأستاذة ليديا والأستاذ عبد الله وسلسلة الميزان: روابط مباشرة */
 function linkify(k,src){
   const card=document.querySelector('.vcard[data-k="'+k+'"]');
   const arr=(src&&src[key])||[];
@@ -191,6 +191,7 @@ function linkify(k,src){
     box.appendChild(a);
   });
 }
+linkify('ly',typeof PHYS_LY!=='undefined'?PHYS_LY:null);
 linkify('ab',typeof PHYS_AB!=='undefined'?PHYS_AB:null);
 linkify('mz',typeof PHYS_MZ!=='undefined'?PHYS_MZ:null);
 
