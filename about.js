@@ -390,3 +390,41 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
     el.style.setProperty('--sd',c[1]);
   });
 })();
+/* ===== 9) ألوان بطاقات المواد والدروس حسب المادة ===== */
+(function(){
+  var SUBC={
+    'الرياضيات':['#60a5fa','#1d4ed8'],
+    'الفيزياء':['#fb7185','#be123c'],
+    'العلوم':['#4ade80','#16a34a'],
+    'العلوم الإسلامية':['#fb923c','#ea580c'],
+    'الاقتصاد':['#2dd4bf','#0f766e'],
+    'الهندسة':['#facc15','#ca8a04']
+  };
+  function colorOf(name){
+    if(!name) return null;
+    if(SUBC[name]) return SUBC[name];
+    if(name.indexOf('الهندسة')===0) return SUBC['الهندسة'];
+    return null;
+  }
+  var cur=localStorage.getItem('mishkat_subject')||'';
+  var st=document.createElement('style');
+  st.textContent=''
+  +'.b[data-s],.b[data-c],.b[data-t]{border-color:var(--sc,#b266ff)!important;animation:subglow 2.8s ease-in-out infinite}'
+  +'.b[data-s]:hover,.b[data-c]:hover,.b[data-t]:hover,.b[data-s]:focus-visible,.b[data-c]:focus-visible,.b[data-t]:focus-visible{border-color:var(--sc,#b266ff)!important;box-shadow:0 0 18px var(--sc,#b266ff),0 12px 30px var(--sc,#b266ff)}'
+  +'@keyframes subglow{0%,100%{box-shadow:0 0 6px var(--sc,#b266ff),0 0 14px var(--sc,#b266ff)}50%{box-shadow:0 0 12px var(--sc,#b266ff),0 0 26px var(--sc,#b266ff)}}';
+  document.head.appendChild(st);
+
+  /* بطاقات المواد: لون كل مادة حسب اسمها */
+  document.querySelectorAll('.b[data-s]').forEach(function(el){
+    var c=colorOf(el.getAttribute('data-s'));
+    if(c) el.style.setProperty('--sc',c[0]);
+  });
+
+  /* الدروس وأزرار الأقسام: لون المادة الحالية */
+  var cc=colorOf(cur);
+  if(cc){
+    document.querySelectorAll('.b[data-c],.b[data-t]').forEach(function(el){
+      el.style.setProperty('--sc',cc[0]);
+    });
+  }
+})();
