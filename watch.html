@@ -29,9 +29,10 @@ h1{font-size:30px;margin-bottom:6px}
 .chrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .chav{flex:none;width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--c2),var(--c1));color:#fff;display:grid;place-items:center;font-weight:800;font-size:20px;overflow:hidden}
 .chav img{width:100%;height:100%;object-fit:cover}
-.chn{flex:1;min-width:140px}
+.chn{flex:1;min-width:140px;color:inherit;text-decoration:none;display:block}
 .chn b{display:block;font-size:15px}
 .chn small{color:var(--muted);font-size:12.5px}
+a.chn:hover b,a.chn:focus-visible b{color:var(--blue)}
 .subbtn{display:inline-block;background:#e62117;color:#fff;padding:9px 22px;border-radius:999px;font-weight:800;font-size:14px;text-decoration:none;box-shadow:0 8px 18px rgba(230,33,23,.3)}
 .subbtn:hover{background:#c91a10}
 .stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
@@ -78,7 +79,10 @@ h1{font-size:30px;margin-bottom:6px}
       <h2 class="vt" id="vt">فيديو الدرس</h2>
       <div class="chrow">
         <div class="chav" id="chav">▶</div>
-        <div class="chn"><b id="chname">القناة</b><small id="chsubs" hidden></small></div>
+        <a class="chn" id="chlink" href="#" target="_blank" rel="noopener" data-ext>
+          <b id="chname">القناة</b>
+          <small id="chsubs" hidden></small>
+        </a>
         <a class="subbtn" id="subbtn" href="#" target="_blank" rel="noopener" data-ext>🔔 اشترك</a>
       </div>
       <div class="stats" id="stats" hidden></div>
@@ -119,6 +123,20 @@ h1{font-size:30px;margin-bottom:6px}
 (function(){
   var $=function(id){return document.getElementById(id);};
 
+  /* قنوات الأساتذة: k = الكلمة التي تظهر في اسم البطاقة ، u = رابط القناة */
+  var TEACHERS=[
+    {k:'أميرة شنوف',n:'الأستاذة أميرة شنوف',u:'https://youtube.com/@amirahchennouf3007'},
+    {k:'ليديا',n:'الأستاذة ليديا',u:'https://youtube.com/@prof.lydia.physique'},
+    {k:'بوسعادي',n:'الأستاذة بوسعادي',u:'https://youtube.com/@boussaadi'},
+    {k:'نور الدين',n:'الأستاذ نور الدين',u:'https://youtube.com/@noureddine2013'},
+    {k:'عبد الله',n:'الأستاذ عبد الله',u:'https://youtube.com/@prof_abdellah'},
+    {k:'انفينيتي',n:'الأستاذ انفينيتي',u:'https://youtube.com/@infinitymath20'},
+    {k:'شمس الدين',n:'الأستاذ شمس الدين',u:'https://youtube.com/@dr_chms2540'},
+    {k:'كتفي',n:'الأستاذة كتفي شريف زينة',u:'https://youtube.com/@prof-ketfi.cherif-zina'},
+    {k:'أيوب',n:'الأستاذ أيوب',u:'https://youtube.com/channel/UCSvlOpnBLysOZngdzu8lz_Q'},
+    {k:'شاوش',n:'الأستاذ شاوش',u:'https://youtube.com/@profchaouch'}
+  ];
+
   /* الوضع الليلي */
   var root=document.documentElement, modeBtn=$('mode');
   function paint(){modeBtn.textContent=root.getAttribute('data-theme')==='dark'?'☀️ الوضع النهاري':'🌙 الوضع الليلي';}
@@ -136,7 +154,7 @@ h1{font-size:30px;margin-bottom:6px}
     if(history.length>1){history.back();}else{location.href='index.html';}
   };
 
-  /* ملء الشاشة بالعرض: عند دخول ملء الشاشة يُطلب من الهاتف الدوران إلى الوضع الأفقي */
+  /* ملء الشاشة بالعرض */
   function lockLandscape(){
     try{
       if(screen.orientation&&screen.orientation.lock){
@@ -156,6 +174,14 @@ h1{font-size:30px;margin-bottom:6px}
   }
   document.addEventListener('fullscreenchange',onFsChange);
   document.addEventListener('webkitfullscreenchange',onFsChange);
+
+  var toast=$('toast'), tm;
+  function say(msg){
+    toast.textContent=msg;
+    toast.classList.add('on');
+    clearTimeout(tm);
+    tm=setTimeout(function(){toast.classList.remove('on');},2400);
+  }
 
   $('fsb').onclick=function(){
     var el=$('yt');
@@ -177,20 +203,18 @@ h1{font-size:30px;margin-bottom:6px}
   var ch=localStorage.getItem('mishkat_chapter')||'';
   var br=localStorage.getItem('mishkat_branch')||'';
 
+  /* التعرّف على الأستاذ من اسم البطاقة */
+  var T=null;
+  for(var i=0;i<TEACHERS.length;i++){
+    if(label.indexOf(TEACHERS[i].k)>-1){T=TEACHERS[i];break;}
+  }
+
   $('ttl').textContent=ch||'مشاهدة الدرس';
   document.title=(ch||'مشاهدة الدرس')+' - أكاديمية مشكاة';
   var sub=label||'فيديو الدرس';
   if(br) sub+=' • شعبة '+br;
   $('br').textContent=sub;
   if(label) $('vt').textContent=label;
-
-  var toast=$('toast'), tm;
-  function say(msg){
-    toast.textContent=msg;
-    toast.classList.add('on');
-    clearTimeout(tm);
-    tm=setTimeout(function(){toast.classList.remove('on');},2400);
-  }
 
   if(!id){
     document.querySelector('.player').innerHTML='<p style="color:#fff;padding:30px;text-align:center">لا يوجد فيديو لعرضه.</p>';
@@ -203,7 +227,19 @@ h1{font-size:30px;margin-bottom:6px}
   $('cmb').href=ytUrl;
   $('openb').href=ytUrl;
   $('cmall').href=ytUrl;
-  $('subbtn').href=ytUrl;
+
+  /* اسم الأستاذ وقناته */
+  if(T){
+    $('chav').textContent=T.k.charAt(0);
+    $('chname').textContent=T.n;
+    $('chsubs').textContent='اضغط لزيارة القناة';
+    $('chsubs').hidden=false;
+    $('chlink').href=T.u;
+    $('subbtn').href=T.u;
+  }else{
+    $('chlink').href=ytUrl;
+    $('subbtn').href=ytUrl;
+  }
 
   /* مشاركة */
   $('shareb').onclick=function(){
@@ -215,11 +251,14 @@ h1{font-size:30px;margin-bottom:6px}
   };
 
   function setChannel(name,url){
+    /* إذا عُرف الأستاذ نترك اسمه ورابطه كما هما */
+    if(T) return;
     if(name){
       $('chname').textContent=name;
       $('chav').textContent=name.trim().charAt(0).toUpperCase()||'▶';
     }
     if(url){
+      $('chlink').href=url;
       $('subbtn').href=url+(url.indexOf('?')>-1?'&':'?')+'sub_confirmation=1';
     }
   }
@@ -240,7 +279,7 @@ h1{font-size:30px;margin-bottom:6px}
     $('stats').hidden=false;
   }
 
-  /* بدون مفتاح: عنوان الفيديو واسم القناة عبر oEmbed (إن سمح المتصفح) */
+  /* بدون مفتاح: عنوان الفيديو واسم القناة عبر oEmbed */
   fetch('https://www.youtube.com/oembed?url='+encodeURIComponent('https://youtu.be/'+id)+'&format=json')
     .then(function(r){return r.ok?r.json():null;})
     .then(function(j){
@@ -284,7 +323,7 @@ h1{font-size:30px;margin-bottom:6px}
             $('chav').appendChild(img);
           }
           var cs=ci.statistics||{};
-          if(cs.subscriberCount&&!cs.hiddenSubscriberCount){
+          if(cs.subscriberCount&&!cs.hiddenSubscriberCount&&!T){
             $('chsubs').textContent=fmt(cs.subscriberCount)+' مشترك';
             $('chsubs').hidden=false;
           }
