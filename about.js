@@ -366,3 +366,27 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
     el.style.setProperty('--bd',c[1]);
   });
 })();
+/* ===== 8) ألوان دروس كل مادة ===== */
+(function(){
+  var COL={
+    'العلوم':['#4ade80','#16a34a'],
+    'الرياضيات':['#60a5fa','#1d4ed8'],
+    'العلوم الإسلامية':['#fb923c','#ea580c'],
+    'الفيزياء':['#fb7185','#be123c'],
+    'الاقتصاد':['#2dd4bf','#0f766e']
+  };
+  var sj=localStorage.getItem('mishkat_subject')||'';
+  var c=COL[sj];
+  if(!c) return;
+  var st=document.createElement('style');
+  st.textContent=''
+  +'.b[data-c]{border-color:var(--sc)!important;animation:scglow 2.8s ease-in-out infinite}'
+  +'.b[data-c]:hover,.b[data-c]:focus-visible{border-color:var(--sc)!important;box-shadow:0 0 18px var(--sc),0 12px 30px var(--sc)}'
+  +'@keyframes scglow{0%,100%{box-shadow:0 0 6px var(--sc),0 0 14px var(--sc)}50%{box-shadow:0 0 12px var(--sc),0 0 26px var(--sc)}}'
+  +'.b[data-c] span{color:var(--sd)!important}';
+  document.head.appendChild(st);
+  document.querySelectorAll('.b[data-c]').forEach(function(el){
+    el.style.setProperty('--sc',c[0]);
+    el.style.setProperty('--sd',c[1]);
+  });
+})();
