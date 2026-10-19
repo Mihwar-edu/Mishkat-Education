@@ -495,3 +495,25 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
     bac.parentNode.insertBefore(sw,bac);
   }
 })();
+/* ===== 16) توحيد حجم أزرار الصفحة الرئيسية + عنوان اختر المشوار الدراسي ===== */
+(function(){
+  if(!document.querySelector('.hero.wm'))return;
+
+  var st=document.createElement('style');
+  st.textContent=''
+  +'html body .hbtns{grid-template-columns:1fr 1fr!important;gap:12px!important}'
+  +'html body .hbtns .btn,html body .hbtns .soc,html body .hbtns .btn.wt{width:100%!important;min-height:52px!important;height:52px!important;padding:8px 12px!important;font-size:15px!important;border-radius:999px!important;display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;white-space:normal!important;line-height:1.25!important;box-sizing:border-box!important}'
+  +'html body .soc-wrap{width:100%!important;align-items:stretch!important}'
+  +'html body .soc{height:52px!important;min-height:52px!important}'
+  +'html body .dots{justify-content:center!important;margin-top:8px!important}'
+  +'html body .mock .mshead{font-size:18px;font-weight:800;text-align:center;color:#f2f5f8;margin:2px 0 14px;letter-spacing:.2px}';
+  document.head.appendChild(st);
+
+  var mock=document.querySelector('.hero .mock');
+  if(mock&&!mock.querySelector('.mshead')){
+    var h=document.createElement('div');
+    h.className='mshead';
+    h.textContent='🎓 اختر المشوار الدراسي';
+    mock.insertBefore(h,mock.firstChild);
+  }
+})();
