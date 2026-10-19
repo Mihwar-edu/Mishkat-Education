@@ -467,3 +467,19 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
   var ref=uni||acts;
   ref.parentNode.insertBefore(a,ref);
 })();
+/* ===== 13) زرا البيام والابتدائي فوق زر زورونا، وزر زورونا بحجم زر الباكالوريا ===== */
+(function(){
+  var sw=document.getElementById('socwrap');
+  if(!sw||document.getElementById('acts3'))return;
+  var st=document.createElement('style');
+  st.textContent='#acts3{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:520px;margin:12px auto 0}'
+  +'#acts3 .btn{width:100%}'
+  +'#socwrap{width:100%;max-width:520px;margin:12px auto 0;align-items:center}'
+  +'#soc{width:calc(50% - 6px);justify-content:center;text-align:center;font-size:14px;padding:10px 12px;line-height:1.3;white-space:normal}'
+  +'#soc .sw{justify-content:center}';
+  document.head.appendChild(st);
+  var row=document.createElement('div');
+  row.id='acts3';
+  row.innerHTML='<a class="btn bl" href="beam.html">📒 البيام</a><a class="btn gold" href="primary.html">🎒 التعليم الابتدائي</a>';
+  sw.parentNode.insertBefore(row,sw);
+})();
