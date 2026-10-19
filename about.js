@@ -425,7 +425,7 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
   }
 })();
 
-/* ===== 10) بطاقة الجامعة في الصفحة الرئيسية ===== */
+/* ===== 10) بطاقة الجامعة (للصفحات القديمة فقط) ===== */
 (function(){
   var acts=document.querySelector('.hero .acts');
   if(!acts||document.getElementById('uni-card')||document.querySelector('.hbtns'))return;
@@ -445,7 +445,7 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
   acts.parentNode.insertBefore(a,acts);
 })();
 
-/* ===== 11) بطاقة الباكالوريا في الصفحة الرئيسية ===== */
+/* ===== 11) بطاقة الباكالوريا (للصفحات القديمة فقط) ===== */
 (function(){
   var acts=document.querySelector('.hero .acts');
   if(!acts||document.getElementById('bac-card')||document.querySelector('.hbtns'))return;
@@ -466,18 +466,13 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
   ref.parentNode.insertBefore(a,ref);
 })();
 
-/* ===== 12) (محذوفة: كانت تجعل الصفحة الرئيسية فاتحة) ===== */
-
-/* ===== 13) (محذوفة: صارت الأزرار في index.html مباشرة) ===== */
-
-/* ===== 14) (محذوفة: صارت الألوان في index.html مباشرة) ===== */
-
-/* ===== 15) الصفحة الرئيسية داكنة دائماً كما في الصورة الأولى + ترتيب الأزرار ===== */
+/* ===== 15) الصفحة الرئيسية فقط: داكنة دائماً + أزرار بحجم واحد + عنوان المشوار الدراسي ===== */
 (function(){
   if(!document.querySelector('.hero.wm'))return;
 
   var st=document.createElement('style');
   st.textContent=''
+  /* الصفحة الرئيسية داكنة دائماً */
   +'html:root{color-scheme:dark!important;--bg:#0d141c!important;--soft:#121b25!important;--card:#16212d!important;--ink:#f2f5f8!important;--muted:#9aa7b6!important;--line:#223041!important}'
   +'html body{background:#0d141c!important;color:#f2f5f8!important}'
   +'html body .hero.wm{background:linear-gradient(135deg,#0f2438,#0d141c)!important}'
@@ -486,29 +481,27 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
   +'html body h1{color:#fff!important}'
   +'html body .hero p{color:#9aa7b6!important}'
   +'html body .stats small{color:#9aa7b6!important}'
-  +'html body .btn.wt,html body .hbtns2 .btn.wt{background:#16212d!important;color:#fff!important;border:1.5px solid #0a84ff!important;box-shadow:none!important}';
+  /* إلغاء الإطار الافتراضي للأزرار */
+  +'html body button.btn{border:0!important}'
+  /* الأزرار الأربعة بالحجم نفسه: كل واحد 52 بكسل ارتفاعاً وبعرض نصف الصف */
+  +'html body .hbtns{display:grid!important;grid-template-columns:1fr 1fr!important;gap:12px!important;align-items:start!important;max-width:520px!important}'
+  +'html body .hbtns .btn,html body .hbtns .soc{width:100%!important;height:52px!important;min-height:52px!important;padding:8px 12px!important;margin:0!important;font-size:15px!important;border-radius:999px!important;display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;white-space:normal!important;line-height:1.25!important;box-sizing:border-box!important}'
+  +'html body .hbtns .btn.p{border:0!important}'
+  +'html body .hbtns .btn.wt,html body .btn.wt{background:#16212d!important;color:#fff!important;border:1.5px solid #0a84ff!important;box-shadow:none!important}'
+  +'html body .soc-wrap{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:8px!important;width:100%!important;margin:0!important}'
+  +'html body .dots{justify-content:center!important}'
+  /* عنوان البطاقات الثلاث */
+  +'html body .mock .mshead{font-size:18px;font-weight:800;text-align:center;color:#f2f5f8;margin:2px 0 14px;letter-spacing:.2px}';
   document.head.appendChild(st);
 
+  /* زر زورونا في الجهة اليمنى والباكالوريا في اليسرى */
   var sw=document.getElementById('socwrap');
   var bac=document.querySelector('.hbtns2 .btn.wt');
   if(sw&&bac&&bac.nextElementSibling===sw){
     bac.parentNode.insertBefore(sw,bac);
   }
-})();
-/* ===== 16) توحيد حجم أزرار الصفحة الرئيسية + عنوان اختر المشوار الدراسي ===== */
-(function(){
-  if(!document.querySelector('.hero.wm'))return;
 
-  var st=document.createElement('style');
-  st.textContent=''
-  +'html body .hbtns{grid-template-columns:1fr 1fr!important;gap:12px!important}'
-  +'html body .hbtns .btn,html body .hbtns .soc,html body .hbtns .btn.wt{width:100%!important;min-height:52px!important;height:52px!important;padding:8px 12px!important;font-size:15px!important;border-radius:999px!important;display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;white-space:normal!important;line-height:1.25!important;box-sizing:border-box!important}'
-  +'html body .soc-wrap{width:100%!important;align-items:stretch!important}'
-  +'html body .soc{height:52px!important;min-height:52px!important}'
-  +'html body .dots{justify-content:center!important;margin-top:8px!important}'
-  +'html body .mock .mshead{font-size:18px;font-weight:800;text-align:center;color:#f2f5f8;margin:2px 0 14px;letter-spacing:.2px}';
-  document.head.appendChild(st);
-
+  /* عنوان: اختر المشوار الدراسي */
   var mock=document.querySelector('.hero .mock');
   if(mock&&!mock.querySelector('.mshead')){
     var h=document.createElement('div');
