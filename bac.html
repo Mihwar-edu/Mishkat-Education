@@ -40,20 +40,20 @@ h1{font-size:30px;margin-bottom:6px}
 .crumb a{color:var(--blue);text-decoration:none;font-weight:700}
 .crumb a:hover{text-decoration:underline}
 
-/* البطاقات */
+/* البطاقات: بحواف برتقالية وأيقونات احترافية */
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
-.grid.c3 .b:last-child:nth-child(odd){grid-column:1/-1;justify-self:center;width:calc(50% - 7px)}
+.grid.c3 .tl:last-child:nth-child(odd){grid-column:1/-1;justify-self:center;width:calc(50% - 7px)}
 @media (min-width:700px){
   .grid.c3{grid-template-columns:repeat(3,1fr)}
-  .grid.c3 .b:last-child:nth-child(odd){grid-column:auto;width:auto}
-  .grid.c3 .b:last-child:nth-child(3n+1){grid-column:2}
+  .grid.c3 .tl:last-child:nth-child(odd){grid-column:auto;width:auto}
+  .grid.c3 .tl:last-child:nth-child(3n+1){grid-column:2}
 }
-.b{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:96px;padding:18px 10px;border-radius:18px;background:var(--card);border:2px solid #ff9f1c;color:var(--ink);text-decoration:none;font-family:inherit;font-weight:800;font-size:17px;line-height:1.4;box-shadow:0 10px 28px var(--shadow);transition:transform .2s,box-shadow .2s;cursor:pointer}
-.b:hover,.b:focus-visible{transform:translateY(-3px);box-shadow:0 14px 32px var(--shadow)}
-.b.year{font-size:26px;min-height:84px}
-.b-ic{width:52px;height:52px;margin-bottom:8px;border-radius:50%;background:linear-gradient(135deg,#4cc3ff,#0a84ff);display:grid;place-items:center;color:#fff;font-size:24px}
-.b-ic svg{width:28px;height:28px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.b-sub{display:block;margin-top:4px;font-size:12.5px;font-weight:500;color:var(--muted)}
+.tl{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:110px;padding:18px 10px;border-radius:18px;background:var(--card);border:2px solid #ff9f1c;color:var(--ink);text-decoration:none;font-family:inherit;font-weight:800;font-size:16px;line-height:1.4;box-shadow:0 10px 28px var(--shadow);transition:transform .2s,box-shadow .2s;cursor:pointer}
+.tl:hover,.tl:focus-visible{transform:translateY(-3px);box-shadow:0 14px 32px rgba(255,159,28,.25)}
+.tl.year{font-size:26px;min-height:84px}
+.tl-ic{width:54px;height:54px;margin-bottom:8px;border-radius:50%;background:linear-gradient(145deg,#4cc3ff,#0a84ff 55%,#1d57d6);box-shadow:0 10px 20px rgba(10,132,255,.35),inset 0 1px 0 rgba(255,255,255,.4);display:grid;place-items:center}
+.tl-ic svg{width:28px;height:28px}
+.tl-sub{display:block;margin-top:4px;font-size:12.5px;font-weight:500;color:var(--muted)}
 
 .bar{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:30px}
 .back,.mode{display:inline-block;width:auto;margin:0;padding:8px 20px;border:1.5px solid var(--blue);border-radius:999px;background:var(--card);color:var(--blue);font:inherit;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none}
@@ -66,7 +66,7 @@ h1{font-size:30px;margin-bottom:6px}
 .mock .g div:nth-child(2){background:#dff6ff}
 .mock .g div:nth-child(3){background:#dcebff}
 .toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);max-width:90vw;padding:12px 22px;border-radius:999px;background:var(--card);color:var(--ink);border:1.5px solid var(--blue);box-shadow:0 14px 34px var(--shadow);font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:30;text-align:center}
-.toast.on{opacity:1;transform:translate(-50%,0)}
+.toast.on{opacity:1;transform:translate(0,0)}
 </style>
 </head>
 <body>
@@ -101,28 +101,41 @@ h1{font-size:30px;margin-bottom:6px}
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
-/* ✏️ روابط الملفات: أضف الرابط بهذا الشكل مع الفاصلة بين كل سطر
+/* ✏️ روابط الملفات: أضف كل رابط بهذا الشكل مع فاصلة بين الأسطر
    'sujets|2026|علوم تجريبية|الرياضيات':'https://...',
    نوع الملف: sujets = المواضيع ، solutions = الحلول */
 var BAC_LINKS={
 };
 
+var V='<svg viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">';
+var ICO={
+  doc:V+'<path d="M9 4h10l6 6v18H9z"/><path d="M19 4v6h6"/><path d="M13 16h8M13 21h8"/></svg>',
+  check:V+'<circle cx="16" cy="16" r="11.5"/><path stroke-width="2.4" d="M10.5 16.5L14.5 20.5L21.5 12"/></svg>',
+  pi:V+'<path stroke-width="2.4" d="M7 9.5H25M12.5 9.5C12.5 14.5 12 18.5 10 22.5M19.5 9.5V21C19.5 23 20.3 24 22.3 24"/></svg>',
+  calc:V+'<rect x="7" y="3" width="18" height="26" rx="3.5"/><rect x="10" y="6.5" width="12" height="5" rx="1.2"/><path stroke-width="2.6" d="M11 16.5h.01M16 16.5h.01M21 16.5h.01M11 21h.01M16 21h.01M21 21h.01M11 25.2h.01M16 25.2h.01M21 25.2h.01"/></svg>',
+  atom:V+'<circle cx="16" cy="16" r="2.6" fill="#fff" stroke="none"/><g stroke-width="1.8"><ellipse cx="16" cy="16" rx="13" ry="5.2"/><ellipse cx="16" cy="16" rx="13" ry="5.2" transform="rotate(60 16 16)"/><ellipse cx="16" cy="16" rx="13" ry="5.2" transform="rotate(120 16 16)"/></g></svg>',
+  dna:V+'<path d="M10 3C10 10 22 10 22 16C22 22 10 22 10 29"/><path d="M22 3C22 10 10 10 10 16C10 22 22 22 22 29"/><path stroke-width="1.6" opacity=".85" d="M12 7H20M12 12.4H20M12 19.6H20M12 24.9H20"/></svg>',
+  book:V+'<path d="M16 7C13 5 9 4.5 5 5V24C9 23.5 13 24 16 26"/><path d="M16 7C19 5 23 4.5 27 5V24C23 23.5 19 24 16 26"/><path d="M16 7V26"/></svg>',
+  gear:V+'<circle cx="16" cy="16" r="8" stroke-width="2.2"/><circle cx="16" cy="16" r="3" stroke-width="2"/><path stroke-width="3.2" d="M16 3.5V6.7M16 25.3V28.5M3.5 16H6.7M25.3 16H28.5M7.2 7.2L9.5 9.5M22.5 22.5L24.8 24.8M24.8 7.2L22.5 9.5M9.5 22.5L7.2 24.8"/></svg>',
+  chart:V+'<g fill="#fff" stroke="none"><rect x="5" y="21" width="5" height="7" rx="1.2"/><rect x="13.5" y="17" width="5" height="11" rx="1.2"/><rect x="22" y="13" width="5" height="15" rx="1.2"/></g><path d="M5 15L12 10.5L17 12.5L26 4.5"/><path d="M21 4.5H26V9.5"/></svg>'
+};
+
 var TYPES={
-  sujets:{n:'المواضيع',sub:'امتحانات الباكالوريا لجميع الأعوام',ic:'<svg viewBox="0 0 32 32"><path d="M9 4h10l6 6v18H9z"/><path d="M19 4v6h6"/><path d="M13 16h8M13 21h8"/></svg>'},
-  solutions:{n:'الحلول',sub:'حلول مواضيع الباكالوريا لجميع الأعوام',ic:'<svg viewBox="0 0 32 32"><circle cx="16" cy="13" r="7"/><path d="M13 22h6M13.5 25.5h5"/><path d="M13 13l2 2 4-4"/></svg>'}
+  sujets:{n:'المواضيع',sub:'امتحانات الباكالوريا لجميع الأعوام',ic:ICO.doc},
+  solutions:{n:'الحلول',sub:'حلول مواضيع الباكالوريا لجميع الأعوام',ic:ICO.check}
 };
 
 var YEARS=[];
 for(var yy=2026;yy>=2008;yy--) YEARS.push(String(yy));
 
 var BRANCHES=[
-  {n:'علوم تجريبية',ic:'🧬',s:['الرياضيات','الفيزياء','العلوم','العلوم الإسلامية']},
-  {n:'رياضيات',ic:'📐',s:['الرياضيات','الفيزياء','العلوم','العلوم الإسلامية']},
-  {n:'تقني رياضي',ic:'⚙️',s:['الرياضيات','الفيزياء','الهندسة','العلوم الإسلامية']},
-  {n:'تسيير واقتصاد',ic:'📊',s:['الرياضيات','الاقتصاد','العلوم الإسلامية']}
+  {n:'علوم تجريبية',ic:ICO.dna,s:['الرياضيات','الفيزياء','العلوم','العلوم الإسلامية']},
+  {n:'رياضيات',ic:ICO.calc,s:['الرياضيات','الفيزياء','العلوم','العلوم الإسلامية']},
+  {n:'تقني رياضي',ic:ICO.gear,s:['الرياضيات','الفيزياء','الهندسة','العلوم الإسلامية']},
+  {n:'تسيير واقتصاد',ic:ICO.chart,s:['الرياضيات','الاقتصاد','العلوم الإسلامية']}
 ];
 
-var SUBJ_IC={'الرياضيات':'📐','الفيزياء':'⚛️','العلوم':'🧬','العلوم الإسلامية':'🕌','الهندسة':'🛠️','الاقتصاد':'📊'};
+var SUBJ_IC={'الرياضيات':ICO.pi,'الفيزياء':ICO.atom,'العلوم':ICO.dna,'العلوم الإسلامية':ICO.book,'الهندسة':ICO.gear,'الاقتصاد':ICO.chart};
 
 var $=function(id){return document.getElementById(id);};
 var root=document.documentElement, modeBtn=$('mode');
@@ -197,11 +210,11 @@ function say(msg){
 }
 function tile(label,sub,href,opts){
   var a=document.createElement('a');
-  a.className='b'+(opts&&opts.year?' year':'');
+  a.className='tl'+(opts&&opts.year?' year':'');
   a.href=href;
   if(opts&&opts.ic){
     var i=document.createElement('span');
-    i.className='b-ic';
+    i.className='tl-ic';
     i.innerHTML=opts.ic;
     a.appendChild(i);
   }
@@ -210,11 +223,10 @@ function tile(label,sub,href,opts){
   a.appendChild(t);
   if(sub){
     var s=document.createElement('span');
-    s.className='b-sub';
+    s.className='tl-sub';
     s.textContent=sub;
     a.appendChild(s);
   }
-  if(opts&&opts.onclick) a.addEventListener('click',opts.onclick);
   return a;
 }
 
@@ -240,7 +252,7 @@ if(!T){
   BR.s.forEach(function(sj){
     var key=T+'|'+Y+'|'+B+'|'+sj;
     var u=BAC_LINKS[key]||'';
-    var a=tile(sj,u?'متاح':'قيد الإعداد',u||'#',{ic:SUBJ_IC[sj]||'📘'});
+    var a=tile(sj,u?'متاح':'قيد الإعداد',u||'#',{ic:SUBJ_IC[sj]||ICO.book});
     if(u){
       a.target='_blank';
       a.rel='noopener';
