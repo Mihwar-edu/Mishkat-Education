@@ -483,3 +483,12 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
   row.innerHTML='<a class="btn bl" href="beam.html">📒 البيام</a><a class="btn gold" href="primary.html">🎒 التعليم الابتدائي</a>';
   sw.parentNode.insertBefore(row,sw);
 })();
+/* ===== 14) ألوان أزرار الصفحة الرئيسية ===== */
+(function(){
+  var st=document.createElement('style');
+  st.textContent=''
+  +'#about-open{background:#0a84ff!important;color:#fff!important;border:0!important;box-shadow:0 10px 24px rgba(10,132,255,.3)!important}'
+  +'#uni-card,#bac-card,#acts3 .btn{background:#fff!important;color:#101828!important;border:1.5px solid #d0d7e2!important;box-shadow:0 6px 16px rgba(16,24,40,.08)!important}'
+  +'#uni-card svg,#bac-card svg,#acts3 .btn svg{stroke:#101828!important}';
+  document.head.appendChild(st);
+})();
