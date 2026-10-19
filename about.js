@@ -7,7 +7,6 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
   var tp=new URLSearchParams(location.search).get('t');
   if(tp!=='math'&&tp!=='phys') tp=null;
 
-  /* صفحة الشعب: إذا جاء الطالب من بطاقة أستاذ */
   var subEl=document.querySelector('.wrap > .sub');
   if(tp&&document.querySelector('.b[data-b]')&&subEl){
     subEl.textContent='اختر شعبتك لمتابعة دروس '+(tp==='math'?'الرياضيات':'الفيزياء');
@@ -28,14 +27,12 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
     };
   });
 
-  /* صفحة المواد: في تسيير واقتصاد تصبح الخانة الثانية «الاقتصاد» */
   var phys=document.querySelector('.b[data-s="الفيزياء"]');
   if(phys&&br==='تسيير واقتصاد'){
     phys.dataset.s='الاقتصاد';
     phys.innerHTML='<span>📊</span>الاقتصاد';
   }
 
-  /* مادة العلوم: في علوم تجريبية ورياضيات فقط */
   if(phys&&(br==='علوم تجريبية'||br==='رياضيات')&&!document.querySelector('.b[data-s="العلوم"]')){
     var sc=document.createElement('button');
     sc.type='button';
@@ -45,7 +42,6 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
     phys.after(sc);
   }
 
-  /* مادة العلوم الإسلامية: لكل الشعب */
   var gridEl=document.querySelector('.wrap > .grid');
   if(phys&&gridEl&&!document.querySelector('.b[data-s="العلوم الإسلامية"]')){
     var bsList=[].slice.call(gridEl.children).filter(function(c){return c.classList.contains('b');});
@@ -55,7 +51,6 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
     isl.setAttribute('data-s','العلوم الإسلامية');
     isl.innerHTML='<span>🕌</span>العلوم الإسلامية';
     bsList[bsList.length-1].after(isl);
-    /* إذا كان عدد البطاقات فردياً تتوسط الأخيرة على الهاتف */
     if((bsList.length+1)%2===1){
       isl.classList.add('solo');
       var sst=document.createElement('style');
@@ -289,7 +284,7 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
   +'<span class="ab-tag">✨ عن المنصة</span>'
   +'<h2>أكاديمية مشكاة</h2>'
   +'<ul>'
-  +'<li><i>🎓</i><span>أكاديمية مشكاة منصة تعليمية عربية تساعدك على التفوق في البكالوريا بخطوات واضحة ومنظمة.</span></li>'
+  +'<li><i>🎓</i><span>أكاديمية مشكاة منصة تعليمية عربية تساعدك على التفوق بخطوات واضحة ومنظمة.</span></li>'
   +'<li><i>📚</i><span>دروس وتمارين مرتبة حسب شعبتك ومادتك، من الدرس الأول حتى يوم الامتحان.</span></li>'
   +'<li><i>🎥</i><span>شروحات مبسطة وفيديوهات تعيد مشاهدتها في أي وقت ومن أي جهاز.</span></li>'
   +'<li><i>💡</i><span>اسم «مشكاة» مأخوذ من المصباح الذي ينير الطريق، وهذا ما نريده لك في رحلتك الدراسية.</span></li>'
@@ -343,6 +338,7 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
     location.href='watch.html?v='+encodeURIComponent(id)+(label?'&t='+encodeURIComponent(label):'');
   });
 })();
+
 /* ===== 7) ألوان بطاقات الشعب ===== */
 (function(){
   var COL={
@@ -366,6 +362,7 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
     el.style.setProperty('--bd',c[1]);
   });
 })();
+
 /* ===== 8) ألوان دروس كل مادة ===== */
 (function(){
   var COL={
@@ -390,6 +387,7 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
     el.style.setProperty('--sd',c[1]);
   });
 })();
+
 /* ===== 9) ألوان بطاقات المواد والدروس حسب المادة ===== */
 (function(){
   var SUBC={
@@ -414,13 +412,11 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
   +'@keyframes subglow{0%,100%{box-shadow:0 0 6px var(--sc,#b266ff),0 0 14px var(--sc,#b266ff)}50%{box-shadow:0 0 12px var(--sc,#b266ff),0 0 26px var(--sc,#b266ff)}}';
   document.head.appendChild(st);
 
-  /* بطاقات المواد: لون كل مادة حسب اسمها */
   document.querySelectorAll('.b[data-s]').forEach(function(el){
     var c=colorOf(el.getAttribute('data-s'));
     if(c) el.style.setProperty('--sc',c[0]);
   });
 
-  /* الدروس وأزرار الأقسام: لون المادة الحالية */
   var cc=colorOf(cur);
   if(cc){
     document.querySelectorAll('.b[data-c],.b[data-t]').forEach(function(el){
@@ -428,10 +424,11 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
     });
   }
 })();
+
 /* ===== 10) بطاقة الجامعة في الصفحة الرئيسية ===== */
 (function(){
   var acts=document.querySelector('.hero .acts');
-  if(!acts||document.getElementById('uni-card'))return;
+  if(!acts||document.getElementById('uni-card')||document.querySelector('.hbtns'))return;
   var st=document.createElement('style');
   st.textContent='.ucap{display:flex;align-items:center;gap:12px;width:100%;max-width:520px;margin:0 auto 16px;padding:12px 18px;border-radius:999px;background:var(--card);border:2px solid #ffc233;box-shadow:0 0 14px rgba(255,194,51,.55),0 8px 22px rgba(255,194,51,.18);transition:transform .2s;direction:rtl;text-decoration:none;color:inherit}'
   +'.ucap:hover,.ucap:focus-visible{transform:translateY(-3px)}'
@@ -447,10 +444,11 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
   a.innerHTML='<span class="ucap-i"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 6L3 12l13 6 13-6-13-6Z"/><path d="M8 15v6c0 2 3.6 4 8 4s8-2 8-4v-6"/><path d="M27 12v7"/></svg></span><span><span class="ucap-t">🎓 الجامعة</span><span class="ucap-s">محتوى جامعي قريباً</span></span>';
   acts.parentNode.insertBefore(a,acts);
 })();
+
 /* ===== 11) بطاقة الباكالوريا في الصفحة الرئيسية ===== */
 (function(){
   var acts=document.querySelector('.hero .acts');
-  if(!acts||document.getElementById('bac-card'))return;
+  if(!acts||document.getElementById('bac-card')||document.querySelector('.hbtns'))return;
   var st=document.createElement('style');
   st.textContent='.bcap{display:flex;align-items:center;gap:12px;width:100%;max-width:520px;margin:0 auto 16px;padding:12px 18px;border-radius:999px;background:var(--card);border:2px solid #0a84ff;box-shadow:0 0 14px rgba(10,132,255,.45),0 8px 22px rgba(10,132,255,.18);transition:transform .2s;direction:rtl;text-decoration:none;color:inherit}'
   +'.bcap:hover,.bcap:focus-visible{transform:translateY(-3px)}'
@@ -467,28 +465,33 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
   var ref=uni||acts;
   ref.parentNode.insertBefore(a,ref);
 })();
-/* ===== 13) زرا البيام والابتدائي فوق زر زورونا، وزر زورونا بحجم زر الباكالوريا ===== */
+
+/* ===== 12) (محذوفة: كانت تجعل الصفحة الرئيسية فاتحة) ===== */
+
+/* ===== 13) (محذوفة: صارت الأزرار في index.html مباشرة) ===== */
+
+/* ===== 14) (محذوفة: صارت الألوان في index.html مباشرة) ===== */
+
+/* ===== 15) الصفحة الرئيسية داكنة دائماً كما في الصورة الأولى + ترتيب الأزرار ===== */
 (function(){
-  var sw=document.getElementById('socwrap');
-  if(!sw||document.getElementById('acts3'))return;
-  var st=document.createElement('style');
-  st.textContent='#acts3{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:520px;margin:12px auto 0}'
-  +'#acts3 .btn{width:100%}'
-  +'#socwrap{width:100%;max-width:520px;margin:12px auto 0;align-items:center}'
-  +'#soc{width:calc(50% - 6px);justify-content:center;text-align:center;font-size:14px;padding:10px 12px;line-height:1.3;white-space:normal}'
-  +'#soc .sw{justify-content:center}';
-  document.head.appendChild(st);
-  var row=document.createElement('div');
-  row.id='acts3';
-  row.innerHTML='<a class="btn bl" href="beam.html">📒 البيام</a><a class="btn gold" href="primary.html">🎒 التعليم الابتدائي</a>';
-  sw.parentNode.insertBefore(row,sw);
-})();
-/* ===== 14) ألوان أزرار الصفحة الرئيسية ===== */
-(function(){
+  if(!document.querySelector('.hero.wm'))return;
+
   var st=document.createElement('style');
   st.textContent=''
-  +'#about-open{background:#0a84ff!important;color:#fff!important;border:0!important;box-shadow:0 10px 24px rgba(10,132,255,.3)!important}'
-  +'#uni-card,#bac-card,#acts3 .btn{background:#fff!important;color:#101828!important;border:1.5px solid #d0d7e2!important;box-shadow:0 6px 16px rgba(16,24,40,.08)!important}'
-  +'#uni-card svg,#bac-card svg,#acts3 .btn svg{stroke:#101828!important}';
+  +'html:root{color-scheme:dark!important;--bg:#0d141c!important;--soft:#121b25!important;--card:#16212d!important;--ink:#f2f5f8!important;--muted:#9aa7b6!important;--line:#223041!important}'
+  +'html body{background:#0d141c!important;color:#f2f5f8!important}'
+  +'html body .hero.wm{background:linear-gradient(135deg,#0f2438,#0d141c)!important}'
+  +'html body section.f.wm{background:#121b25!important}'
+  +'html body .wm::before{opacity:.07!important}'
+  +'html body h1{color:#fff!important}'
+  +'html body .hero p{color:#9aa7b6!important}'
+  +'html body .stats small{color:#9aa7b6!important}'
+  +'html body .btn.wt,html body .hbtns2 .btn.wt{background:#16212d!important;color:#fff!important;border:1.5px solid #0a84ff!important;box-shadow:none!important}';
   document.head.appendChild(st);
+
+  var sw=document.getElementById('socwrap');
+  var bac=document.querySelector('.hbtns2 .btn.wt');
+  if(sw&&bac&&bac.nextElementSibling===sw){
+    bac.parentNode.insertBefore(sw,bac);
+  }
 })();
