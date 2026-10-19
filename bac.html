@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الباكالوريا - أكاديمية مشكاة</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="auth.css">
+<script>
+try{if(localStorage.getItem('mishkat_theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}
+</script>
+<style>
+:root{--blue:#0a84ff;--ink:#101828;--muted:#667085;--card:#fff;--line:#eaeef3;--bgfrom:#e3f4ff;--bgmid:#f4fbff;--bgto:#fffbea;--shadow:rgba(10,132,255,.12);color-scheme:light}
+:root[data-theme="dark"]{--ink:#f2f5f8;--muted:#9aa7b6;--card:#16212d;--line:#223041;--bgfrom:#0f2438;--bgmid:#0d141c;--bgto:#0d141c;--shadow:rgba(0,0,0,.35);color-scheme:dark}
+[hidden]{display:none!important}
+body{display:block;padding:40px 5%;min-height:100vh;background:linear-gradient(135deg,var(--bgfrom),var(--bgmid) 60%,var(--bgto));color:var(--ink)}
+.wrap{max-width:640px;margin:0 auto;text-align:center}
+.logo,h1{color:var(--ink)}
+h1{font-size:30px;margin-bottom:6px}
+.sub{color:var(--muted)}
+
+/* شريط البحث بأسلوب محرك البحث */
+.gs{display:flex;align-items:center;gap:10px;height:52px;margin:24px auto 0;padding:0 18px;max-width:560px;border-radius:999px;background:var(--card);border:1px solid var(--line);box-shadow:0 1px 6px rgba(32,33,36,.16);transition:box-shadow .2s,border-color .2s;direction:rtl}
+.gs:focus-within{box-shadow:0 2px 12px rgba(32,33,36,.26);border-color:transparent}
+.gs-ic{flex:none;width:20px;height:20px;color:#9aa0a6}
+.gs input{flex:1;min-width:0;height:100%;border:0;outline:0;background:transparent;font:inherit;font-size:16px;color:var(--ink);text-align:right}
+.gs input::placeholder{color:#9aa0a6}
+.gs-x{flex:none;width:30px;height:30px;border:0;border-radius:50%;background:transparent;color:var(--muted);font-size:16px;cursor:pointer}
+.gs-x:hover{background:var(--line)}
+.sugg{max-width:560px;margin:8px auto 0;text-align:right;background:var(--card);border-radius:20px;box-shadow:0 6px 20px rgba(32,33,36,.18);overflow:hidden;border:1px solid var(--line)}
+.sg{display:block;padding:12px 20px;color:var(--ink);text-decoration:none;border-top:1px solid var(--line)}
+.sg:first-child{border-top:0}
+.sg:hover,.sg:focus-visible,.sg.on{background:rgba(10,132,255,.1)}
+.sg b{display:block;font-size:15px}
+.sg small{display:block;color:var(--muted);font-size:12.5px}
+.nores{padding:14px 20px;color:var(--muted);font-size:14px}
+
+/* مسار التنقل */
+.crumb{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:18px;font-size:13.5px;color:var(--muted)}
+.crumb a{color:var(--blue);text-decoration:none;font-weight:700}
+.crumb a:hover{text-decoration:underline}
+
+/* البطاقات */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+.grid.c3 .b:last-child:nth-child(odd){grid-column:1/-1;justify-self:center;width:calc(50% - 7px)}
+@media (min-width:700px){
+  .grid.c3{grid-template-columns:repeat(3,1fr)}
+  .grid.c3 .b:last-child:nth-child(odd){grid-column:auto;width:auto}
+  .grid.c3 .b:last-child:nth-child(3n+1){grid-column:2}
+}
+.b{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:96px;padding:18px 10px;border-radius:18px;background:var(--card);border:2px solid #ff9f1c;color:var(--ink);text-decoration:none;font-family:inherit;font-weight:800;font-size:17px;line-height:1.4;box-shadow:0 10px 28px var(--shadow);transition:transform .2s,box-shadow .2s;cursor:pointer}
+.b:hover,.b:focus-visible{transform:translateY(-3px);box-shadow:0 14px 32px var(--shadow)}
+.b.year{font-size:26px;min-height:84px}
+.b-ic{width:52px;height:52px;margin-bottom:8px;border-radius:50%;background:linear-gradient(135deg,#4cc3ff,#0a84ff);display:grid;place-items:center;color:#fff;font-size:24px}
+.b-ic svg{width:28px;height:28px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.b-sub{display:block;margin-top:4px;font-size:12.5px;font-weight:500;color:var(--muted)}
+
+.bar{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:30px}
+.back,.mode{display:inline-block;width:auto;margin:0;padding:8px 20px;border:1.5px solid var(--blue);border-radius:999px;background:var(--card);color:var(--blue);font:inherit;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none}
+.back:hover,.back:focus-visible,.mode:hover,.mode:focus-visible{background:var(--blue);color:#fff}
+.mock{background:var(--card);border-radius:16px;padding:24px;margin:34px auto 0;max-width:420px;box-shadow:0 20px 50px var(--shadow)}
+.mock .l{height:10px;border-radius:6px;background:var(--line);margin-bottom:12px}
+.mock .g{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+.mock .g div{height:110px;border-radius:12px}
+.mock .g div:nth-child(1){background:#fff7d6}
+.mock .g div:nth-child(2){background:#dff6ff}
+.mock .g div:nth-child(3){background:#dcebff}
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);max-width:90vw;padding:12px 22px;border-radius:999px;background:var(--card);color:var(--ink);border:1.5px solid var(--blue);box-shadow:0 14px 34px var(--shadow);font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:30;text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo">أكاديمية مشكاة</div>
+  <h1 id="ttl">الباكالوريا</h1>
+  <p class="sub" id="sub">اختر ما تريد</p>
+
+  <div class="gs" role="search">
+    <svg class="gs-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    <input id="q" type="search" placeholder="ابحث عن السنة أو الشعبة أو المادة" autocomplete="off" aria-label="بحث">
+    <button class="gs-x" id="gsx" type="button" aria-label="مسح" hidden>✕</button>
+  </div>
+  <div class="sugg" id="sugg" hidden></div>
+
+  <nav class="crumb" id="crumb" hidden></nav>
+  <div class="grid c2" id="grid"></div>
+
+  <div class="bar">
+    <a class="back" id="backb" href="index.html">← العودة للرئيسية</a>
+    <button class="mode" id="mode" type="button">🌙 الوضع الليلي</button>
+  </div>
+
+  <div class="mock" aria-hidden="true">
+    <div class="l" style="width:70%"></div>
+    <div class="l"></div>
+    <div class="l" style="width:85%"></div>
+    <div class="g"><div></div><div></div><div></div></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ✏️ روابط الملفات: أضف الرابط بهذا الشكل مع الفاصلة بين كل سطر
+   'sujets|2026|علوم تجريبية|الرياضيات':'https://...',
+   نوع الملف: sujets = المواضيع ، solutions = الحلول */
+var BAC_LINKS={
+};
+
+var TYPES={
+  sujets:{n:'المواضيع',sub:'امتحانات الباكالوريا لجميع الأعوام',ic:'<svg viewBox="0 0 32 32"><path d="M9 4h10l6 6v18H9z"/><path d="M19 4v6h6"/><path d="M13 16h8M13 21h8"/></svg>'},
+  solutions:{n:'الحلول',sub:'حلول مواضيع الباكالوريا لجميع الأعوام',ic:'<svg viewBox="0 0 32 32"><circle cx="16" cy="13" r="7"/><path d="M13 22h6M13.5 25.5h5"/><path d="M13 13l2 2 4-4"/></svg>'}
+};
+
+var YEARS=[];
+for(var yy=2026;yy>=2008;yy--) YEARS.push(String(yy));
+
+var BRANCHES=[
+  {n:'علوم تجريبية',ic:'🧬',s:['الرياضيات','الفيزياء','العلوم','العلوم الإسلامية']},
+  {n:'رياضيات',ic:'📐',s:['الرياضيات','الفيزياء','العلوم','العلوم الإسلامية']},
+  {n:'تقني رياضي',ic:'⚙️',s:['الرياضيات','الفيزياء','الهندسة','العلوم الإسلامية']},
+  {n:'تسيير واقتصاد',ic:'📊',s:['الرياضيات','الاقتصاد','العلوم الإسلامية']}
+];
+
+var SUBJ_IC={'الرياضيات':'📐','الفيزياء':'⚛️','العلوم':'🧬','العلوم الإسلامية':'🕌','الهندسة':'🛠️','الاقتصاد':'📊'};
+
+var $=function(id){return document.getElementById(id);};
+var root=document.documentElement, modeBtn=$('mode');
+
+/* الوضع الليلي */
+function paint(){modeBtn.textContent=root.getAttribute('data-theme')==='dark'?'☀️ الوضع النهاري':'🌙 الوضع الليلي';}
+paint();
+modeBtn.onclick=function(){
+  var dark=root.getAttribute('data-theme')==='dark';
+  if(dark){root.removeAttribute('data-theme');}else{root.setAttribute('data-theme','dark');}
+  try{localStorage.setItem('mishkat_theme',dark?'light':'dark');}catch(e){}
+  paint();
+};
+
+/* التنقل */
+var P=new URLSearchParams(location.search);
+var T=P.get('type')||'', Y=P.get('y')||'', B=P.get('b')||'';
+if(!TYPES[T]) T='';
+if(YEARS.indexOf(Y)<0) Y='';
+var BR=null;
+for(var i=0;i<BRANCHES.length;i++){ if(BRANCHES[i].n===B){BR=BRANCHES[i];break;} }
+if(!BR) B='';
+if(!T){Y='';B='';}
+if(!Y){B='';}
+
+function link(o){
+  var p=[];
+  if(o.type) p.push('type='+encodeURIComponent(o.type));
+  if(o.y) p.push('y='+encodeURIComponent(o.y));
+  if(o.b) p.push('b='+encodeURIComponent(o.b));
+  return 'bac.html'+(p.length?'?'+p.join('&'):'');
+}
+
+/* مسار التنقل */
+(function(){
+  var c=$('crumb');
+  var items=[{t:'الباكالوريا',h:link({})}];
+  if(T) items.push({t:TYPES[T].n,h:link({type:T})});
+  if(Y) items.push({t:Y,h:link({type:T,y:Y})});
+  if(B) items.push({t:B,h:link({type:T,y:Y,b:B})});
+  if(items.length<2){c.hidden=true;return;}
+  c.hidden=false;
+  items.forEach(function(it,i){
+    if(i>0){var s=document.createElement('span');s.textContent='‹';c.appendChild(s);}
+    if(i<items.length-1){var a=document.createElement('a');a.href=it.h;a.textContent=it.t;c.appendChild(a);}
+    else{var sp=document.createElement('span');sp.textContent=it.t;c.appendChild(sp);}
+  });
+})();
+
+/* العنوان والنص التوضيحي والرجوع */
+(function(){
+  var title=B||(Y?'الباكالوريا '+Y:(T?TYPES[T].n:'الباكالوريا'));
+  var subText=B?'اختر المادة التي تريدها':Y?'اختر الشعبة':T?TYPES[T].sub:'اختر ما تريد: مواضيع أو حلول';
+  $('ttl').textContent=title;
+  $('sub').textContent=subText;
+  document.title=title+' - أكاديمية مشكاة';
+  var back=$('backb');
+  if(!T){back.textContent='← العودة للرئيسية';back.href='index.html';}
+  else{
+    back.textContent='← رجوع';
+    back.href=!Y?'bac.html':(!B?link({type:T}):link({type:T,y:Y}));
+  }
+})();
+
+/* إنشاء البطاقة */
+var toast=$('toast'), tm;
+function say(msg){
+  toast.textContent=msg;
+  toast.classList.add('on');
+  clearTimeout(tm);
+  tm=setTimeout(function(){toast.classList.remove('on');},2600);
+}
+function tile(label,sub,href,opts){
+  var a=document.createElement('a');
+  a.className='b'+(opts&&opts.year?' year':'');
+  a.href=href;
+  if(opts&&opts.ic){
+    var i=document.createElement('span');
+    i.className='b-ic';
+    i.innerHTML=opts.ic;
+    a.appendChild(i);
+  }
+  var t=document.createElement('span');
+  t.textContent=label;
+  a.appendChild(t);
+  if(sub){
+    var s=document.createElement('span');
+    s.className='b-sub';
+    s.textContent=sub;
+    a.appendChild(s);
+  }
+  if(opts&&opts.onclick) a.addEventListener('click',opts.onclick);
+  return a;
+}
+
+/* عرض البطاقات حسب المستوى */
+var g=$('grid');
+if(!T){
+  g.className='grid c2';
+  Object.keys(TYPES).forEach(function(k){
+    g.appendChild(tile(TYPES[k].n,TYPES[k].sub,link({type:k}),{ic:TYPES[k].ic}));
+  });
+}else if(!Y){
+  g.className='grid c3';
+  YEARS.forEach(function(y){
+    g.appendChild(tile(y,null,link({type:T,y:y}),{year:true}));
+  });
+}else if(!B){
+  g.className='grid c2';
+  BRANCHES.forEach(function(b){
+    g.appendChild(tile(b.n,b.s.length+' مواد',link({type:T,y:Y,b:b.n}),{ic:b.ic}));
+  });
+}else{
+  g.className='grid c2';
+  BR.s.forEach(function(sj){
+    var key=T+'|'+Y+'|'+B+'|'+sj;
+    var u=BAC_LINKS[key]||'';
+    var a=tile(sj,u?'متاح':'قيد الإعداد',u||'#',{ic:SUBJ_IC[sj]||'📘'});
+    if(u){
+      a.target='_blank';
+      a.rel='noopener';
+    }else{
+      a.addEventListener('click',function(e){
+        e.preventDefault();
+        say('مادة «'+sj+'» لـ'+B+' قيد الإعداد، وستُضاف قريباً ✨');
+      });
+    }
+    g.appendChild(a);
+  });
+}
+
+/* محرك البحث */
+function norm(s){
+  return String(s).replace(/[\u064B-\u065F\u0670]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ـ/g,'').toLowerCase().trim();
+}
+var IDX=[];
+Object.keys(TYPES).forEach(function(t){
+  YEARS.forEach(function(y){
+    BRANCHES.forEach(function(b){
+      IDX.push({
+        t:t,y:y,b:b.n,
+        hay:norm([TYPES[t].n,'الباكالوريا',y,b.n].concat(b.s).join(' ')),
+        label:TYPES[t].n+' '+y+' • '+b.n,
+        sub:b.s.join(' • ')
+      });
+    });
+  });
+});
+
+var q=$('q'), box=$('sugg'), gx=$('gsx'), act=-1, list=[];
+function run(){
+  var v=norm(q.value).split(/\s+/).filter(Boolean);
+  gx.hidden=!q.value;
+  box.innerHTML='';
+  list=[];
+  act=-1;
+  if(!v.length){box.hidden=true;return;}
+  var res=IDX.filter(function(r){
+    return v.every(function(w){return r.hay.indexOf(w)>-1;});
+  });
+  box.hidden=false;
+  if(!res.length){
+    var n=document.createElement('div');
+    n.className='nores';
+    n.textContent='لا توجد نتائج مطابقة، جرّب سنة مثل 2019 أو شعبة أو مادة.';
+    box.appendChild(n);
+    return;
+  }
+  res.slice(0,10).forEach(function(r){
+    var a=document.createElement('a');
+    a.className='sg';
+    a.href=link({type:r.t,y:r.y,b:r.b});
+    var bb=document.createElement('b');
+    bb.textContent=r.label;
+    var s=document.createElement('small');
+    s.textContent=r.sub;
+    a.appendChild(bb);
+    a.appendChild(s);
+    box.appendChild(a);
+    list.push(a);
+  });
+}
+function hl(){list.forEach(function(a,i){a.classList.toggle('on',i===act);});}
+q.addEventListener('input',run);
+q.addEventListener('focus',run);
+q.addEventListener('keydown',function(e){
+  if(e.key==='ArrowDown'&&list.length){e.preventDefault();act=(act+1)%list.length;hl();}
+  else if(e.key==='ArrowUp'&&list.length){e.preventDefault();act=(act-1+list.length)%list.length;hl();}
+  else if(e.key==='Enter'){
+    e.preventDefault();
+    var t=list[act>=0?act:0];
+    if(t) location.href=t.href;
+  }
+  else if(e.key==='Escape'){q.value='';run();}
+});
+gx.addEventListener('click',function(){q.value='';run();q.focus();});
+document.addEventListener('click',function(e){
+  if(!e.target.closest||!e.target.closest('.gs,.sugg')) box.hidden=true;
+});
+</script>
+<script src="about.js"></script>
+</body>
+</html>
