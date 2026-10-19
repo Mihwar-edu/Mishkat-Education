@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>شهادة التعليم المتوسط - أكاديمية مشكاة</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
+<script>try{if(localStorage.getItem('mishkat_theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
+<style>
+:root{--ink:#1f2a44;--muted:#5b6b86;--card:#fff;--blue:#1d8cf8;--bgfrom:#fff7cc;--bgmid:#e6f6ff;--bgto:#ffeef6;--shadow:rgba(31,42,68,.16);color-scheme:light}
+:root[data-theme="dark"]{--ink:#f2f5f8;--muted:#9aa7b6;--card:#16212d;--blue:#4aa8ff;--bgfrom:#0f2438;--bgmid:#0d141c;--bgto:#15131f;--shadow:rgba(0,0,0,.4);color-scheme:dark}
+*{box-sizing:border-box;margin:0}
+[hidden]{display:none!important}
+body{font-family:'Tajawal',system-ui,sans-serif;min-height:100vh;padding:34px 5% 44px;background:linear-gradient(135deg,var(--bgfrom),var(--bgmid) 55%,var(--bgto));color:var(--ink);text-align:center}
+.wrap{max-width:620px;margin:0 auto}
+.logo{font-weight:800;font-size:18px;margin-bottom:14px}
+.hello{display:inline-block;background:#fff;color:#1f2a44;border-radius:999px;padding:12px 26px;border:3px solid #ffb703;box-shadow:0 10px 26px var(--shadow);font-weight:800;font-size:clamp(18px,4vw,26px);direction:ltr;letter-spacing:.3px}
+h1{font-size:clamp(24px,5vw,34px);font-weight:800;margin:22px 0 4px}
+.sub{color:var(--muted);font-size:17px;font-weight:700}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px auto 0}
+.grid>.kc:last-child:nth-child(odd){grid-column:1/-1;justify-self:center;width:calc(50% - 8px)}
+.kc{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:150px;padding:18px 10px;border-radius:26px;background:var(--c,#ffd54a);border:4px solid #fff;box-shadow:0 10px 0 rgba(31,42,68,.12),0 16px 30px var(--shadow);color:#1f2a44;font-family:inherit;font-weight:800;cursor:pointer;transition:transform .2s}
+.kc:hover,.kc:focus-visible{transform:translateY(-5px) rotate(-1deg)}
+.kc:active{transform:translateY(2px)}
+.em{font-size:54px;line-height:1.1}
+.nm{font-size:20px;line-height:1.3}
+.bar{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:30px}
+.back,.mode{display:inline-block;padding:8px 20px;border:1.5px solid var(--blue);border-radius:999px;background:var(--card);color:var(--blue);font:inherit;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none}
+.back:hover,.mode:hover{background:var(--blue);color:#fff}
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);max-width:90vw;padding:12px 22px;border-radius:999px;background:var(--card);color:var(--ink);border:1.5px solid var(--blue);box-shadow:0 14px 34px var(--shadow);font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:30;text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media (max-width:420px){.em{font-size:44px}.nm{font-size:17px}.kc{min-height:132px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo">أكاديمية مشكاة</div>
+  <div class="hello">مرحبا بك في منصة MISHKAT</div>
+  <h1>شهادة التعليم المتوسط (البيام)</h1>
+  <p class="sub">اختر المادة</p>
+  <div class="grid" id="grid"></div>
+  <div class="bar">
+    <a class="back" href="index.html">← العودة للرئيسية</a>
+    <button class="mode" id="mode" type="button">🌙 الوضع الليلي</button>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+var $=function(i){return document.getElementById(i);};
+var root=document.documentElement, modeBtn=$('mode');
+function paint(){modeBtn.textContent=root.getAttribute('data-theme')==='dark'?'☀️ الوضع النهاري':'🌙 الوضع الليلي';}
+paint();
+modeBtn.onclick=function(){
+  var d=root.getAttribute('data-theme')==='dark';
+  if(d){root.removeAttribute('data-theme');}else{root.setAttribute('data-theme','dark');}
+  try{localStorage.setItem('mishkat_theme',d?'light':'dark');}catch(e){}
+  paint();
+};
+
+var toast=$('toast'), tm;
+function say(m){toast.textContent=m;toast.classList.add('on');clearTimeout(tm);tm=setTimeout(function(){toast.classList.remove('on');},2600);}
+
+var SUBJECTS=[
+  {n:'الرياضيات',e:'📐',c:'#ffd54a'},
+  {n:'الفيزياء',e:'⚛️',c:'#7fd3ff'},
+  {n:'العلوم',e:'🧬',c:'#8ee6a0'},
+  {n:'التربية الإسلامية',e:'🕌',c:'#ffa6c9'},
+  {n:'اللغة العربية',e:'📝',c:'#ffb36b'}
+];
+
+var grid=$('grid');
+SUBJECTS.forEach(function(s){
+  var b=document.createElement('button');
+  b.type='button';
+  b.className='kc';
+  b.style.setProperty('--c',s.c);
+  b.innerHTML='<span class="em">'+s.e+'</span><span class="nm">'+s.n+'</span>';
+  b.onclick=function(){say('مادة «'+s.n+'» للبيام قيد الإعداد، وستُضاف قريباً ✨');};
+  grid.appendChild(b);
+});
+</script>
+</body>
+</html>
