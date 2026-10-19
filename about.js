@@ -467,3 +467,40 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
   var ref=uni||acts;
   ref.parentNode.insertBefore(a,ref);
 })();
+/* ===== 12) إلغاء البنفسجي من كل البطاقات + الصفحة الرئيسية بيضاء دائماً ===== */
+(function(){
+  var st=document.createElement('style');
+  st.textContent=''
+  +':root{--sc:#ff9f1c}'
+  +'@keyframes bcg{0%,100%{box-shadow:0 0 6px var(--bc),0 0 14px var(--bc)}50%{box-shadow:0 0 12px var(--bc),0 0 26px var(--bc)}}'
+  +'.b,.eng{border-color:#ff9f1c!important;animation:none!important}'
+  +'.b[data-b]{border-color:var(--bc,#ff9f1c)!important;animation:bcg 2.8s ease-in-out infinite!important}'
+  +'.b[data-s],.b[data-c],.b[data-t]{border-color:var(--sc,#ff9f1c)!important;animation:subglow 2.8s ease-in-out infinite!important}'
+  +'.bc{border-color:var(--bc,#ff9f1c)!important;animation:bcg 2.8s ease-in-out infinite!important}';
+  document.head.appendChild(st);
+
+  /* الصفحة الرئيسية فقط: بيضاء دائماً وبألوان الشعب */
+  if(document.querySelector('.hero.wm')){
+    var h=document.createElement('style');
+    h.textContent=''
+    +':root{color-scheme:light!important;--bg:#fff!important;--soft:#f7f9fb!important;--card:#fff!important;--ink:#101828!important;--muted:#667085!important;--line:#eaeef3!important}'
+    +'body{background:#fff!important}'
+    +'.hero{background:linear-gradient(135deg,#e3f4ff,#f4fbff 60%,#fffbea)!important}'
+    +'.wm::before{opacity:.09!important}';
+    document.head.appendChild(h);
+
+    var BC={
+      'علوم تجريبية':['#4ade80','#15803d'],
+      'رياضيات':['#60a5fa','#1d4ed8'],
+      'تقني رياضي':['#facc15','#a16207'],
+      'تسيير واقتصاد':['#fb923c','#c2410c']
+    };
+    document.querySelectorAll('.bc[data-b]').forEach(function(el){
+      var c=BC[el.getAttribute('data-b')];
+      if(!c) return;
+      el.style.setProperty('--bc',c[0]);
+      var ic=el.querySelector('.bc-i');
+      if(ic){ic.style.background=c[0]+'33';ic.style.color=c[1];}
+    });
+  }
+})();
