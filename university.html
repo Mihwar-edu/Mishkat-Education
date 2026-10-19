@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الجامعة - أكاديمية مشكاة</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="auth.css">
+<script>
+try{if(localStorage.getItem('mishkat_theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}
+</script>
+<style>
+:root{--blue:#0a84ff;--ink:#101828;--muted:#667085;--card:#fff;--line:#eaeef3;--bgfrom:#e3f4ff;--bgmid:#f4fbff;--bgto:#fffbea;--shadow:rgba(10,132,255,.12);color-scheme:light}
+:root[data-theme="dark"]{--ink:#f2f5f8;--muted:#9aa7b6;--card:#16212d;--line:#223041;--bgfrom:#0f2438;--bgmid:#0d141c;--bgto:#0d141c;--shadow:rgba(0,0,0,.35);color-scheme:dark}
+body{display:block;padding:40px 5%;min-height:100vh;background:linear-gradient(135deg,var(--bgfrom),var(--bgmid) 60%,var(--bgto));color:var(--ink)}
+.wrap{max-width:640px;margin:0 auto;text-align:center}
+.logo,h1{color:var(--ink)}
+h1{font-size:30px;margin-bottom:6px}
+.sub{color:var(--muted)}
+
+.ucard{margin:26px auto 0;max-width:460px;border-radius:24px;padding:28px 24px;background:var(--card);border:2px solid #ffc233;box-shadow:0 14px 34px rgba(255,194,51,.28)}
+.uic{width:76px;height:76px;margin:0 auto 14px;border-radius:50%;background:linear-gradient(135deg,#ffc233,#ff9f1c);display:grid;place-items:center;box-shadow:0 10px 22px rgba(255,159,28,.35)}
+.uic svg{width:40px;height:40px;fill:none;stroke:#4a3000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ut{font-size:22px;font-weight:800;margin-bottom:8px}
+.ud{color:var(--muted);font-size:15px;line-height:1.8}
+.soon{display:inline-block;margin-top:16px;padding:8px 18px;border-radius:999px;background:linear-gradient(135deg,#ffc233,#ff9f1c);color:#4a3000;font-weight:800;font-size:14px}
+
+.bar{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:30px}
+.back,.mode{display:inline-block;width:auto;margin:0;padding:8px 20px;border:1.5px solid var(--blue);border-radius:999px;background:var(--card);color:var(--blue);font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.back:hover,.back:focus-visible,.mode:hover,.mode:focus-visible{background:var(--blue);color:#fff}
+.mock{background:var(--card);border-radius:16px;padding:24px;margin:34px auto 0;max-width:420px;box-shadow:0 20px 50px var(--shadow)}
+.mock .l{height:10px;border-radius:6px;background:var(--line);margin-bottom:12px}
+.mock .g{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+.mock .g div{height:110px;border-radius:12px}
+.mock .g div:nth-child(1){background:#fff7d6}
+.mock .g div:nth-child(2){background:#dff6ff}
+.mock .g div:nth-child(3){background:#dcebff}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo">أكاديمية مشكاة</div>
+  <h1>الجامعة</h1>
+  <p class="sub">محتوى خاص بطلبة الجامعة</p>
+
+  <div class="ucard">
+    <div class="uic"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 6L3 12l13 6 13-6-13-6Z"/><path d="M8 15v6c0 2 3.6 4 8 4s8-2 8-4v-6"/><path d="M27 12v7"/></svg></div>
+    <div class="ut">محتوى الجامعة قريباً</div>
+    <p class="ud">نعمل على تجهيز دروس وملخصات ومحتوى خاص بطلبة الجامعة، وسيكون متاحاً هنا قريباً. تابعنا لتعرف أول من يصله الجديد.</p>
+    <span class="soon">قيد الإعداد ✨</span>
+  </div>
+
+  <div class="bar">
+    <a class="back" href="index.html">← العودة للرئيسية</a>
+    <button class="mode" id="mode" type="button">🌙 الوضع الليلي</button>
+  </div>
+
+  <div class="mock" aria-hidden="true">
+    <div class="l" style="width:70%"></div>
+    <div class="l"></div>
+    <div class="l" style="width:85%"></div>
+    <div class="g"><div></div><div></div><div></div></div>
+  </div>
+</div>
+<script>
+const root=document.documentElement, modeBtn=document.getElementById('mode');
+function paint(){modeBtn.textContent=root.getAttribute('data-theme')==='dark'?'☀️ الوضع النهاري':'🌙 الوضع الليلي';}
+paint();
+modeBtn.onclick=()=>{
+  const dark=root.getAttribute('data-theme')==='dark';
+  if(dark){root.removeAttribute('data-theme');}else{root.setAttribute('data-theme','dark');}
+  try{localStorage.setItem('mishkat_theme',dark?'light':'dark');}catch(e){}
+  paint();
+};
+</script>
+<script src="about.js"></script>
+</body>
+</html>
