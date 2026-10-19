@@ -428,3 +428,22 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
     });
   }
 })();
+/* ===== 10) بطاقة الجامعة في الصفحة الرئيسية ===== */
+(function(){
+  var acts=document.querySelector('.hero .acts');
+  if(!acts||document.getElementById('uni-card'))return;
+  var st=document.createElement('style');
+  st.textContent='.ucap{display:flex;align-items:center;gap:12px;width:100%;max-width:520px;margin:0 auto 16px;padding:12px 18px;border-radius:999px;background:var(--card);border:2px solid #ffc233;box-shadow:0 0 14px rgba(255,194,51,.55),0 8px 22px rgba(255,194,51,.18);transition:transform .2s;direction:rtl;text-decoration:none;color:inherit}'
+  +'.ucap:hover,.ucap:focus-visible{transform:translateY(-3px)}'
+  +'.ucap-i{flex:none;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#ffc233,#ff9f1c);display:grid;place-items:center}'
+  +'.ucap-i svg{width:22px;height:22px;fill:none;stroke:#4a3000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}'
+  +'.ucap-t{display:block;font-weight:800;font-size:16px;line-height:1.35}'
+  +'.ucap-s{display:block;font-size:12.5px;color:var(--muted);line-height:1.35}';
+  document.head.appendChild(st);
+  var a=document.createElement('a');
+  a.id='uni-card';
+  a.className='ucap';
+  a.href='university.html';
+  a.innerHTML='<span class="ucap-i"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 6L3 12l13 6 13-6-13-6Z"/><path d="M8 15v6c0 2 3.6 4 8 4s8-2 8-4v-6"/><path d="M27 12v7"/></svg></span><span><span class="ucap-t">🎓 الجامعة</span><span class="ucap-s">محتوى جامعي قريباً</span></span>';
+  acts.parentNode.insertBefore(a,acts);
+})();
