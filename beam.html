@@ -7,20 +7,34 @@
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
 <script>try{if(localStorage.getItem('mishkat_theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <style>
-:root{--ink:#1f2a44;--muted:#5b6b86;--card:#fff;--blue:#1d8cf8;--bgfrom:#fff7cc;--bgmid:#e6f6ff;--bgto:#ffeef6;--shadow:rgba(31,42,68,.16);color-scheme:light}
-:root[data-theme="dark"]{--ink:#f2f5f8;--muted:#9aa7b6;--card:#16212d;--blue:#4aa8ff;--bgfrom:#0f2438;--bgmid:#0d141c;--bgto:#15131f;--shadow:rgba(0,0,0,.4);color-scheme:dark}
+:root{--ink:#1f2a44;--muted:#5b6b86;--card:#fff;--blue:#1d8cf8;--shadow:rgba(31,42,68,.16);color-scheme:light}
+:root[data-theme="dark"]{--ink:#f2f5f8;--muted:#9aa7b6;--card:#16212d;--blue:#4aa8ff;--shadow:rgba(0,0,0,.4);color-scheme:dark}
 *{box-sizing:border-box;margin:0}
 [hidden]{display:none!important}
-body{font-family:'Tajawal',system-ui,sans-serif;min-height:100vh;padding:34px 5% 44px;background:linear-gradient(135deg,var(--bgfrom),var(--bgmid) 55%,var(--bgto));color:var(--ink);text-align:center}
-.wrap{max-width:620px;margin:0 auto}
+body{font-family:'Tajawal',system-ui,sans-serif;min-height:100vh;padding:34px 5% 44px;background:linear-gradient(160deg,#e4f1ff 0%,#fff3d6 50%,#f0e6ff 100%);color:var(--ink);text-align:center;overflow-x:hidden;position:relative}
+:root[data-theme="dark"] body{background:linear-gradient(160deg,#1b2a4a,#0d141c 60%,#221a33)}
+.deco{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.deco span{position:absolute;font-size:30px;opacity:.5;animation:float 6s ease-in-out infinite}
+.deco span:nth-child(1){top:5%;left:6%;animation-delay:0s}
+.deco span:nth-child(2){top:16%;right:7%;animation-delay:-1.5s;font-size:36px}
+.deco span:nth-child(3){top:44%;left:3%;animation-delay:-2.5s;font-size:26px}
+.deco span:nth-child(4){top:60%;right:4%;animation-delay:-3.5s}
+.deco span:nth-child(5){top:82%;left:8%;animation-delay:-4.5s;font-size:34px}
+.deco span:nth-child(6){top:88%;right:10%;animation-delay:-2s;font-size:28px}
+@keyframes float{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-16px) rotate(12deg)}}
+.wrap{max-width:640px;margin:0 auto;position:relative;z-index:1}
 .logo{font-weight:800;font-size:18px;margin-bottom:14px}
-.hello{display:inline-block;background:#fff;color:#1f2a44;border-radius:999px;padding:12px 26px;border:3px solid #ffb703;box-shadow:0 10px 26px var(--shadow);font-weight:800;font-size:clamp(18px,4vw,26px);direction:ltr;letter-spacing:.3px}
-h1{font-size:clamp(24px,5vw,34px);font-weight:800;margin:22px 0 4px}
+.hello{display:inline-block;background:#fff;color:#1f2a44;border-radius:999px;padding:12px 26px;border:3px solid #7c5cff;box-shadow:0 10px 26px var(--shadow);font-weight:800;font-size:clamp(18px,4vw,26px);direction:ltr;letter-spacing:.3px;animation:wobble 4s ease-in-out infinite}
+@keyframes wobble{0%,100%{transform:rotate(-1deg)}50%{transform:rotate(1deg)}}
+h1{font-size:clamp(24px,5vw,34px);font-weight:800;margin:22px 0 4px;background:linear-gradient(90deg,#4361ee,#7c5cff,#ff6b9a,#ffb703);-webkit-background-clip:text;background-clip:text;color:transparent}
 .sub{color:var(--muted);font-size:17px;font-weight:700}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px auto 0}
 .grid>.kc:last-child:nth-child(odd){grid-column:1/-1;justify-self:center;width:calc(50% - 8px)}
-.kc{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:150px;padding:18px 10px;border-radius:26px;background:var(--c,#ffd54a);border:4px solid #fff;box-shadow:0 10px 0 rgba(31,42,68,.12),0 16px 30px var(--shadow);color:#1f2a44;font-family:inherit;font-weight:800;cursor:pointer;transition:transform .2s}
-.kc:hover,.kc:focus-visible{transform:translateY(-5px) rotate(-1deg)}
+.kc{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:150px;padding:18px 10px;border-radius:26px;background:var(--c,#ffd54a);border:4px solid #fff;box-shadow:0 10px 0 rgba(31,42,68,.12),0 16px 30px var(--shadow);color:#1f2a44;font-family:inherit;font-weight:800;cursor:pointer;transition:transform .2s;animation:bob 3.5s ease-in-out infinite}
+.kc:nth-child(2n){animation-delay:-1.2s}
+.kc:nth-child(3n){animation-delay:-2.1s}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.kc:hover,.kc:focus-visible{transform:translateY(-5px) rotate(-2deg);animation-play-state:paused}
 .kc:active{transform:translateY(2px)}
 .em{font-size:54px;line-height:1.1}
 .nm{font-size:20px;line-height:1.3}
@@ -30,13 +44,15 @@ h1{font-size:clamp(24px,5vw,34px);font-weight:800;margin:22px 0 4px}
 .toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);max-width:90vw;padding:12px 22px;border-radius:999px;background:var(--card);color:var(--ink);border:1.5px solid var(--blue);box-shadow:0 14px 34px var(--shadow);font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:30;text-align:center}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 @media (max-width:420px){.em{font-size:44px}.nm{font-size:17px}.kc{min-height:132px}}
+@media (prefers-reduced-motion:reduce){.deco span,.kc,.hello{animation:none}}
 </style>
 </head>
 <body>
+<div class="deco" aria-hidden="true"><span>🎓</span><span>📚</span><span>✏️</span><span>🧪</span><span>📐</span><span>🌟</span></div>
 <div class="wrap">
   <div class="logo">أكاديمية مشكاة</div>
   <div class="hello">مرحبا بك في منصة MISHKAT</div>
-  <h1>شهادة التعليم المتوسط (البيام)</h1>
+  <h1>شهادة التعليم المتوسط (البيام) 🎓</h1>
   <p class="sub">اختر المادة</p>
   <div class="grid" id="grid"></div>
   <div class="bar">
