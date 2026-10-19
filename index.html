@@ -20,10 +20,13 @@ header{display:flex;justify-content:space-between;align-items:center;padding:14p
 .logo i{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#38bdf8,var(--blue));color:#fff;display:grid;place-items:center;font-style:normal}
 .lg-img{width:40px;height:40px;border-radius:50%;object-fit:cover;flex:none;background:#fff;box-shadow:0 4px 12px rgba(10,132,255,.25)}
 nav{display:flex;align-items:center;gap:18px;font-size:14px}
-.btn{display:inline-block;padding:10px 22px;border-radius:999px;font-weight:700;font-size:15px}
-button.btn{font-family:inherit;color:inherit;cursor:pointer;line-height:inherit}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 22px;border-radius:999px;font-weight:700;font-size:15px;white-space:nowrap;text-align:center;line-height:1.3}
+button.btn{font-family:inherit;color:inherit;cursor:pointer}
 .btn.p{background:var(--blue);color:#fff}
 .btn.s{background:var(--card);border:1px solid var(--line)}
+.btn.gold{background:linear-gradient(135deg,#ffc233,#ff9f1c);color:#4a3000;box-shadow:0 8px 18px rgba(255,159,28,.3)}
+.btn.bl{background:var(--card);border:1.5px solid var(--blue);color:var(--blue)}
+.btn svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 /* شعار المنصة كخلفية باهتة خلف المحتوى */
 .wm{position:relative;overflow:hidden}
@@ -37,7 +40,10 @@ button.btn{font-family:inherit;color:inherit;cursor:pointer;line-height:inherit}
 h1{font-size:clamp(32px,5vw,54px);line-height:1.25;font-weight:800}
 h1 span{color:var(--blue)}
 .hero p{color:var(--muted);margin:18px 0 26px;max-width:480px}
-.acts{display:flex;gap:12px;flex-wrap:wrap}
+
+/* أزرار الصفحة الرئيسية: عمودان متساويان، فتتطابق البطاقة مع الزر الذي فوقها */
+.hero .acts{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:520px;margin:0}
+.hero .acts2{margin-top:12px}
 .stats{display:flex;gap:34px;margin-top:36px}
 .stats b{display:block;font-size:24px;color:var(--blue)}
 .stats small{color:var(--muted)}
@@ -174,6 +180,7 @@ section.f>p{color:var(--muted);margin-bottom:30px;padding:0 5%}
 .cta{margin-top:22px;text-align:center}
 
 @media (max-width:800px){.hero{grid-template-columns:minmax(0,1fr);padding:40px 5%}nav a.h{display:none}.ft-in{grid-template-columns:1fr;gap:24px}}
+@media (max-width:420px){.btn{font-size:14px;padding:10px 12px}}
 @media (prefers-reduced-motion:reduce){.track,.btrack{animation:none}.marquee,.bmq{overflow-x:auto}.bmq{-webkit-mask-image:none;mask-image:none}.mc,.mc::before,.mc::after,.shine{animation:none}.sec{opacity:1;transform:none;transition:none}.ov,.mc{transition:none}.soc .sw{transition:none}.dot{transition:none}.dot.on{animation:none;box-shadow:0 0 10px 3px rgba(27,176,208,.9)}.bc{transition:none;animation:none;box-shadow:0 0 12px 2px rgba(168,85,247,.6)}}
 </style>
 </head>
@@ -219,6 +226,11 @@ section.f>p{color:var(--muted);margin-bottom:30px;padding:0 5%}
       <a class="btn p" href="branches.html">ابدأ التعلم الآن</a>
       <button class="btn s" id="about-open" type="button" aria-haspopup="dialog">تعرّف على المنصة</button>
     </div>
+    <div class="acts acts2">
+      <a class="btn gold" id="uni-card" href="university.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4L2 9l10 5 10-5-10-5Z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/></svg>الجامعة</a>
+      <a class="btn bl" id="bac-card" href="bac.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/><path d="M10 13h6M10 17h6"/></svg>الباكالوريا</a>
+    </div>
+
     <div class="soc-wrap" id="socwrap">
       <a class="soc" id="soc" href="#" target="_blank" rel="noopener"><span class="sw" id="sw"></span></a>
       <div class="dots" id="dots">
@@ -228,9 +240,9 @@ section.f>p{color:var(--muted);margin-bottom:30px;padding:0 5%}
       </div>
     </div>
     <div class="stats">
-      <div><b>+</b><small>طالب نشط</small></div>
-      <div><b>+</b><small>معلم متميز</small></div>
-      <div><b>+</b><small>درس تفاعلي</small></div>
+      <div><b>+-</b><small>طالب نشط</small></div>
+      <div><b>+-</b><small>معلم متميز</small></div>
+      <div><b>+-</b><small>درس تفاعلي</small></div>
     </div>
   </div>
   <div class="mock" aria-hidden="true">
@@ -249,7 +261,7 @@ section.f>p{color:var(--muted);margin-bottom:30px;padding:0 5%}
 
         <div class="fc">
           <span class="tag">📖 دروس منظمة</span>
-          <div class="num">+<small>درس</small></div>
+          <div class="num">+-<small>درس</small></div>
           <div class="stars" aria-hidden="true">★★★★★</div>
           <p>محتوى مرتب حسب المادة والوحدة ليسهل عليك المتابعة.</p>
           <a class="go" href="branches.html">تصفّح الدروس ←</a>
@@ -257,7 +269,7 @@ section.f>p{color:var(--muted);margin-bottom:30px;padding:0 5%}
 
         <div class="fc">
           <span class="tag">👥 معلمون متميزون</span>
-          <div class="num">+<small>معلم</small></div>
+          <div class="num">+-<small>معلم</small></div>
           <div class="stars" aria-hidden="true">★★★★★</div>
           <p>نخبة من المعلمين يشرحون لك بأسلوب بسيط وواضح.</p>
           <a class="go" href="branches.html">ابدأ مع معلمك ←</a>
@@ -355,13 +367,14 @@ section.f>p{color:var(--muted);margin-bottom:30px;padding:0 5%}
       <div class="sec">
         <h3>⚡ ماذا تقدم لك المنصة؟</h3>
         <ul class="ck">
-          <li>دروس وتمارين  مرتبة حسب شعبتك ومادتك</li>
+          <li>دروس مرتبة حسب شعبتك ومادتك</li>
           <li>لكل درس: ملخصات وتمارين وتصحيح وسلاسل الميزان</li>
           <li>شروحات مبسطة وفيديوهات تعيد مشاهدتها متى شئت</li>
           <li>حساب شخصي يحفظ شعبتك ومادتك</li>
           <li>وضع ليلي مريح للعين أثناء المراجعة</li>
-          <li>تعمل بسلاسة على الهاتف والكمبيوتر</li>
-        </ul>
+          <li>تعمل بسلاسة على الهاتف والكمبيوتر</li>       
+             <li>محتويات الجامعة ستضاف قري</ li>      
+ </ul>
       </div>
 
       <div class="sec">
