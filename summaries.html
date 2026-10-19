@@ -20,6 +20,7 @@ h1{font-size:30px;margin-bottom:6px}
 .sub{color:var(--muted)}
 
 .vgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:26px auto 0;max-width:640px}
+.vgrid .vcard:last-child:nth-child(odd){grid-column:1/-1;justify-self:center;width:calc(50% - 6px)}
 .vcard{display:flex;flex-direction:column;align-items:center;direction:rtl;text-align:center;padding:14px 10px 16px;border-radius:18px;color:#fff;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--c1),var(--c2));box-shadow:0 12px 28px var(--cglow);transition:transform .25s}
 .vcard:hover{transform:translateY(-4px)}
 .vcard::before{content:"";position:absolute;left:-40px;bottom:-60px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.12)}
@@ -34,6 +35,7 @@ h1{font-size:30px;margin-bottom:6px}
 .vgo:hover,.vgo:focus-visible{background:#e8fbff}
 @media (min-width:600px){
   .vgrid{gap:18px}
+  .vgrid .vcard:last-child:nth-child(odd){width:calc(50% - 9px)}
   .vcard{padding:20px 18px 22px;border-radius:20px}
   .vtag{font-size:13.5px;padding:6px 14px}
   .vico{width:68px;height:68px;margin:14px auto 6px}
@@ -44,7 +46,7 @@ h1{font-size:30px;margin-bottom:6px}
 }
 
 .bar{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:30px}
-.back,.mode{display:inline-block;width:auto;margin:0;padding:8px 20px;border:1.5px solid var(--blue);border-radius:999px;background:var(--card);color:var(--blue);font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.back,.mode{display:inline-block;width:auto;margin:0;padding:8px 20px;border:1.5px solid var(--blue);border-radius:999px;background:var(--card);color:var(--blue);font:inherit;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none}
 .back:hover,.back:focus-visible,.mode:hover,.mode:focus-visible{background:var(--blue);color:#fff}
 .mock{background:var(--card);border-radius:16px;padding:24px;margin:34px auto 0;max-width:420px;box-shadow:0 20px 50px var(--shadow)}
 .mock .l{height:10px;border-radius:6px;background:var(--line);margin-bottom:12px}
@@ -62,7 +64,6 @@ h1{font-size:30px;margin-bottom:6px}
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <symbol id="i-book" viewBox="0 0 32 32"><path d="M16 7C13 5 9 4.5 5 5V24C9 23.5 13 24 16 26"/><path d="M16 7C19 5 23 4.5 27 5V24C23 23.5 19 24 16 26"/><path d="M16 7V26"/></symbol>
   <symbol id="i-user" viewBox="0 0 32 32"><circle cx="16" cy="11" r="5"/><path d="M6 27c0-5.5 4.5-9 10-9s10 3.5 10 9"/></symbol>
-  <symbol id="i-trophy" viewBox="0 0 32 32"><path d="M9 5h14v6a7 7 0 0 1-14 0V5Z"/><path d="M9 7H5v2a4 4 0 0 0 4 4M23 7h4v2a4 4 0 0 1-4 4"/><path d="M16 18v5M11 27h10M13 23h6"/></symbol>
   <symbol id="i-star" viewBox="0 0 32 32"><path d="M16 4l3.5 7.2 7.9 1.1-5.7 5.5 1.4 7.8L16 21.9 8.9 25.6l1.4-7.8-5.7-5.5 7.9-1.1L16 4Z"/></symbol>
 </svg>
 
@@ -71,41 +72,7 @@ h1{font-size:30px;margin-bottom:6px}
   <h1 id="ttl">الملخصات</h1>
   <p class="sub" id="br">الملخصات</p>
 
-  <div class="vgrid">
-
-    <article class="vcard" data-k="platform">
-      <span class="vtag">📘 ملخصات منصة مشكاة</span>
-      <div class="vico"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#i-book"/></svg></div>
-      <div class="vword">ملخصاتنا</div>
-      <p>ملخصات خاصة بمنصة مشكاة</p>
-      <div class="vact"><button class="vgo" type="button" data-n="ملخصات منصة مشكاة">تصفّح الملخصات ←</button></div>
-    </article>
-
-    <article class="vcard" data-k="teachers">
-      <span class="vtag">👨‍🏫 ملخصات الأساتذة</span>
-      <div class="vico"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#i-user"/></svg></div>
-      <div class="vword">الأساتذة</div>
-      <p>ملخصات أساتذة المادة</p>
-      <div class="vact"><button class="vgo" type="button" data-n="ملخصات الأساتذة">تصفّح الملخصات ←</button></div>
-    </article>
-
-    <article class="vcard" data-k="top">
-      <span class="vtag">🏆 ملخصات التلاميذ المتفوقين</span>
-      <div class="vico"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#i-trophy"/></svg></div>
-      <div class="vword">المتفوقون</div>
-      <p>ملخصات تلاميذ متفوقين</p>
-      <div class="vact"><button class="vgo" type="button" data-n="ملخصات التلاميذ المتفوقين">تصفّح الملخصات ←</button></div>
-    </article>
-
-    <article class="vcard" data-k="himma">
-      <span class="vtag">🌟 ملخصات منصة همة</span>
-      <div class="vico"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#i-star"/></svg></div>
-      <div class="vword">همة</div>
-      <p>ملخصات منصة همة</p>
-      <div class="vact"><button class="vgo" type="button" data-n="ملخصات منصة همة">تصفّح الملخصات ←</button></div>
-    </article>
-
-  </div>
+  <div class="vgrid" id="grid"></div>
 
   <div class="bar">
     <a class="back" href="index.html">← العودة للرئيسية</a>
@@ -146,53 +113,78 @@ let sub='الملخصات';
 if(br) sub+=' • شعبة '+br;
 document.getElementById('br').textContent=sub;
 
-const cards=[].slice.call(document.querySelectorAll('.vcard'));
-function setCard(card,key,tag,word,p,n,icon){
-  card.dataset.k=key;
-  card.querySelector('.vtag').textContent=tag;
-  card.querySelector('.vword').textContent=word;
-  card.querySelector('p').textContent=p;
-  card.querySelector('use').setAttribute('href','#'+icon);
-  const b=card.querySelector('button.vgo');
-  b.dataset.n=n;
-  b.textContent='تصفّح الملخصات ←';
-}
+/* البطاقات المعروضة حسب المادة */
+const DEFAULT=['platform','himma'];
+const BY_SUBJECT={
+  'العلوم':['platform','himma','marwa'],
+  'العلوم الإسلامية':['platform','bousaadi','himma','shams']
+};
 
-if(sj==='العلوم الإسلامية'){
-  /* العلوم الإسلامية: منصتنا ، كتاب بوسعادي ، همة ، كتاب شمس الدين */
-  setCard(cards[1],'bousaadi','📖 ملخصات (كتاب) الأستاذة بوسعادي','بوسعادي','ملخصات كتاب الأستاذة بوسعادي','ملخصات (كتاب) الأستاذة بوسعادي','i-book');
-  setCard(cards[2],'himma','🌟 ملخصات منصة همة','همة','ملخصات منصة همة','ملخصات منصة همة','i-star');
-  setCard(cards[3],'shams','📖 ملخصات (كتاب) الأستاذ شمس الدين','شمس الدين','ملخصات كتاب الأستاذ شمس الدين','ملخصات (كتاب) الأستاذ شمس الدين','i-book');
-}else if(sj==='العلوم'){
-  /* العلوم: بطاقة ملخصات الأستاذة مروة خمالي */
-  setCard(cards[1],'marwa','👩‍🏫 الأستاذة مروة خمالي','ملخصاتها','ملخصات الأستاذة مروة خمالي لعلوم الطبيعة والحياة','ملخصات الأستاذة مروة خمالي','i-user');
-  cards[1].querySelector('button.vgo').textContent='فتح الموقع ←';
-}
+const CARD={
+  platform:{tag:'📘 ملخصات منصة مشكاة',icon:'i-book',word:'ملخصاتنا',desc:'ملخصات خاصة بمنصة مشكاة',btn:'تصفّح الملخصات ←',name:'ملخصات منصة مشكاة'},
+  himma:{tag:'🌟 ملخصات منصة همة',icon:'i-star',word:'همة',desc:'ملخصات منصة همة',btn:'تصفّح الملخصات ←',name:'ملخصات منصة همة'},
+  marwa:{tag:'👩‍🏫 الأستاذة مروة خمالي',icon:'i-user',word:'ملخصاتها',desc:'ملخصات الأستاذة مروة خمالي لعلوم الطبيعة والحياة',btn:'فتح الموقع ←',name:'ملخصات الأستاذة مروة خمالي'},
+  bousaadi:{tag:'📖 ملخصات (كتاب) الأستاذة بوسعادي',icon:'i-book',word:'بوسعادي',desc:'ملخصات كتاب الأستاذة بوسعادي',btn:'تصفّح الملخصات ←',name:'ملخصات (كتاب) الأستاذة بوسعادي'},
+  shams:{tag:'📖 ملخصات (كتاب) الأستاذ شمس الدين',icon:'i-book',word:'شمس الدين',desc:'ملخصات كتاب الأستاذ شمس الدين',btn:'تصفّح الملخصات ←',name:'ملخصات (كتاب) الأستاذ شمس الدين'}
+};
 
-/* تحويل الأزرار إلى روابط عندما يتوفر رابط (الروابط في summlinks.js) */
-cards.forEach(card=>{
-  const u=(typeof SUMM!=='undefined'&&SUMM[card.dataset.k])||'';
-  if(!u) return;
-  const btn=card.querySelector('button.vgo');
-  const a=document.createElement('a');
-  a.className='vgo';
-  a.href=u;
-  a.target='_blank';
-  a.rel='noopener';
-  a.textContent=btn.textContent;
-  btn.replaceWith(a);
-});
-
-/* الأزرار التي لا رابط لها بعد */
 const toast=document.getElementById('toast');
 let tm;
-document.querySelectorAll('button.vgo').forEach(b=>{
-  b.onclick=()=>{
-    toast.textContent='قسم «'+b.dataset.n+'» قيد الإعداد، وسيُضاف قريباً ✨';
-    toast.classList.add('on');
-    clearTimeout(tm);
-    tm=setTimeout(()=>toast.classList.remove('on'),2800);
-  };
+function say(msg){
+  toast.textContent=msg;
+  toast.classList.add('on');
+  clearTimeout(tm);
+  tm=setTimeout(()=>toast.classList.remove('on'),2800);
+}
+
+const grid=document.getElementById('grid');
+(BY_SUBJECT[sj]||DEFAULT).forEach(key=>{
+  const c=CARD[key];
+  const art=document.createElement('article');
+  art.className='vcard';
+
+  const tag=document.createElement('span');
+  tag.className='vtag';
+  tag.textContent=c.tag;
+
+  const ico=document.createElement('div');
+  ico.className='vico';
+  ico.innerHTML='<svg viewBox="0 0 32 32" aria-hidden="true"><use href="#'+c.icon+'"/></svg>';
+
+  const word=document.createElement('div');
+  word.className='vword';
+  word.textContent=c.word;
+
+  const p=document.createElement('p');
+  p.textContent=c.desc;
+
+  const box=document.createElement('div');
+  box.className='vact';
+
+  const url=(typeof SUMM!=='undefined'&&SUMM[key])||'';
+  if(url){
+    const a=document.createElement('a');
+    a.className='vgo';
+    a.href=url;
+    a.target='_blank';
+    a.rel='noopener';
+    a.textContent=c.btn;
+    box.appendChild(a);
+  }else{
+    const b=document.createElement('button');
+    b.className='vgo';
+    b.type='button';
+    b.textContent=c.btn;
+    b.onclick=()=>say('قسم «'+c.name+'» قيد الإعداد، وسيُضاف قريباً ✨');
+    box.appendChild(b);
+  }
+
+  art.appendChild(tag);
+  art.appendChild(ico);
+  art.appendChild(word);
+  art.appendChild(p);
+  art.appendChild(box);
+  grid.appendChild(art);
 });
 </script>
 <script src="about.js"></script>
