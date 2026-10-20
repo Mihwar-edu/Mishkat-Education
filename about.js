@@ -502,7 +502,7 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
   }
 
   /* عنوان: اختر المشوار الدراسي */
-  الاطوار الثلاث الجامعة ،البيام ،التعليم الابتدائي من الأولى إلى الخامسة 
+  
 var mock=document.querySelector('.hero .mock');
   if(mock&&!mock.querySelector('.mshead')){
     var h=document.createElement('div');
