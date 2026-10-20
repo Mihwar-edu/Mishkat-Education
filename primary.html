@@ -77,8 +77,10 @@ modeBtn.onclick=function(){
 var toast=$('toast'), tm;
 function say(m){toast.textContent=m;toast.classList.add('on');clearTimeout(tm);tm=setTimeout(function(){toast.classList.remove('on');},2600);}
 
-/* ✏️ ملفات كتب الأنشطة: اسم الملف بجانب كل سنة ونوع النشاط
-   إذا أضفت ملفاً جديداً فضع اسمه هنا، وإذا لم تضعه يظهر «قيد الإعداد» */
+/* ✏️ ملفات كتب الأنشطة لكل سنة:
+   lang = كتاب الأنشطة اللغوية (يفتح عند اختيار اللغة العربية)
+   sport = كتاب الأنشطة الرياضية (يفتح عند اختيار الرياضيات)
+   إذا لم يوجد الملف تظهر رسالة «قيد الإعداد» */
 var PDFS={
   1:{lang:'lang1.pdf',sport:'sport1.pdf'},
   2:{lang:'lang2.pdf',sport:'sport2.pdf'},
@@ -108,20 +110,18 @@ var EXTRA4=[
 ];
 
 var P=new URLSearchParams(location.search);
-var Y=parseInt(P.get('y'),10)||0, S=P.get('s')||'', K=P.get('k')||'';
+var Y=parseInt(P.get('y'),10)||0, S=P.get('s')||'';
 var yr=YEARS.filter(function(x){return x.y===Y;})[0]||null;
 if(!yr) Y=0;
 var pool=SUBS.concat(Y>=3?EXTRA3:[], Y>=4?EXTRA4:[]);
 var sb=Y?(pool.filter(function(x){return x.k===S;})[0]||null):null;
 if(!sb) S='';
-if(!Y){S='';K='';}
-if(!S){K='';}
+if(!Y){S='';}
 
 function url(o){
   var p=[];
   if(o.y) p.push('y='+o.y);
   if(o.s) p.push('s='+o.s);
-  if(o.k) p.push('k='+o.k);
   return 'primary.html'+(p.length?'?'+p.join('&'):'');
 }
 
@@ -130,10 +130,8 @@ if(!Y){
   title='التعليم الابتدائي'; subt='اختر السنة الدراسية'; hello='مرحبا بك في منصة MISHKAT';
 }else if(!S){
   title=yr.n; subt='اختر المادة'; hello='مرحبا بكم في منصة MISHKAT';
-}else if(!K){
-  title=sb.n; subt=yr.n; hello='مرحبا بكم في منصة MISHKAT';
 }else{
-  title='كتب الأنشطة'; subt=yr.n; hello='مرحبا بكم في منصة MISHKAT';
+  title=sb.n; subt=yr.n; hello='مرحبا بكم في منصة MISHKAT';
 }
 $('hello').textContent=hello;
 $('ttl').textContent=title;
@@ -144,9 +142,7 @@ document.title=title+' - أكاديمية مشكاة';
   var b=$('backb');
   if(!Y){b.hidden=true;return;}
   b.hidden=false;
-  if(!S){b.href='primary.html';}
-  else if(!K){b.href=url({y:Y});}
-  else{b.href=url({y:Y,s:S});}
+  b.href=!S?'primary.html':url({y:Y});
 })();
 
 function card(label,em,color,href,onclick){
@@ -174,17 +170,19 @@ if(!Y){
   YEARS.forEach(function(y){g.appendChild(card(y.n,y.e,y.c,url({y:y.y})));});
 }else if(!S){
   pool.forEach(function(s){g.appendChild(card(s.n,s.e,s.c,url({y:Y,s:s.k})));});
-}else if(!K){
-  g.appendChild(card('كتب الأنشطة','📒','#ffd54a',url({y:Y,s:S,k:'act'})));
+}else{
+  var files=PDFS[Y]||{};
+  /* كتب الأنشطة: اللغة العربية تفتح كتاب اللغة، والرياضيات تفتح كتاب الرياضيات */
   g.appendChild(card('التمارين','✏️','#8ee6a0',null,function(){say('تمارين «'+sb.n+'» قيد الإعداد ✨');}));
   g.appendChild(card('الدروس','📖','#7fd3ff',null,function(){say('دروس «'+sb.n+'» قيد الإعداد ✨');}));
   if(S==='arabic'){
+    g.appendChild(pdfCard('كتب الأنشطة','📒','#ffd54a',files.lang));
     g.appendChild(card('المحفوظات','🎵','#ffa6c9',null,function(){say('محفوظات «'+sb.n+'» قيد الإعداد ✨');}));
+  }else if(S==='math'){
+    g.appendChild(pdfCard('كتب الأنشطة','📒','#ffd54a',files.sport));
+  }else{
+    g.appendChild(card('كتب الأنشطة','📒','#ffd54a',null,function(){say('كتب الأنشطة لـ'+sb.n+' قيد الإعداد ✨');}));
   }
-}else{
-  var files=PDFS[Y]||{};
-  g.appendChild(pdfCard('أنشطة لغوية','🔤','#ffd54a',files.lang));
-  g.appendChild(pdfCard('أنشطة رياضية','➕','#8ee6a0',files.sport));
 }
 </script>
 </body>
