@@ -116,13 +116,13 @@ function url(o){
 
 var title, subt, back, hello;
 if(!Y){
-  title='التعليم الابتدائي'; subt='اختر السنة الدراسية'; back='index.html'; hello='MISHKAT في منصة مرحبا بكم في منصة ';
+  title='التعليم الابتدائي'; subt='اختر السنة الدراسية'; back='index.html'; hello='مرحبا بكم في منصة MISHKAT  ';
 }else if(!S){
   title=yr.n; subt='اختر المادة'; back='primary.html'; hello='MISHKAT مرحبا بكم في منصة    ';
 }else if(!K){
-  title=sb.n; subt=yr.n; back=url({y:Y}); hello=' بكم في منصة MISHKAT مرحبا ';
+  title=sb.n; subt=yr.n; back=url({y:Y}); hello=' مرحبا بكم في منصة MISHKAT ';
 }else{
-  title='كتب الأنشطة'; subt=sb.n+' • '+yr.n; back=url({y:Y,s:S}); hello='MISHKAT مرحبا بكم في منصة    ';
+  title='كتب الأنشطة'; subt=sb.n+' • '+yr.n; back=url({y:Y,s:S}); hello='مرحبا بكم في منصة MISHKAT   ';
 }
 $('hello').textContent=hello;
 $('ttl').textContent=title;
