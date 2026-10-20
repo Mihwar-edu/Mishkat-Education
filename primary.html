@@ -39,8 +39,8 @@ h1{font-size:clamp(26px,5.5vw,38px);font-weight:800;margin:22px 0 4px;background
 .em{font-size:54px;line-height:1.1}
 .nm{font-size:20px;line-height:1.3}
 .bar{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:30px}
-.back,.mode{display:inline-block;padding:8px 20px;border:1.5px solid var(--blue);border-radius:999px;background:var(--card);color:var(--blue);font:inherit;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none}
-.back:hover,.mode:hover{background:var(--blue);color:#fff}
+.back,.home,.mode{display:inline-block;padding:8px 20px;border:1.5px solid var(--blue);border-radius:999px;background:var(--card);color:var(--blue);font:inherit;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none}
+.back:hover,.home:hover,.mode:hover{background:var(--blue);color:#fff}
 .toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);max-width:90vw;padding:12px 22px;border-radius:999px;background:var(--card);color:var(--ink);border:1.5px solid var(--blue);box-shadow:0 14px 34px var(--shadow);font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:30;text-align:center}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 @media (max-width:420px){.em{font-size:44px}.nm{font-size:17px}.kc{min-height:132px}}
@@ -56,7 +56,8 @@ h1{font-size:clamp(26px,5.5vw,38px);font-weight:800;margin:22px 0 4px;background
   <p class="sub" id="sub">اختر السنة الدراسية</p>
   <div class="grid" id="grid"></div>
   <div class="bar">
-    <a class="back" id="backb" href="index.html">← العودة للرئيسية</a>
+    <a class="back" id="backb" href="primary.html">← رجوع</a>
+    <a class="home" id="homeb" href="index.html">🏠 العودة للرئيسية</a>
     <button class="mode" id="mode" type="button">🌙 الوضع الليلي</button>
   </div>
 </div>
@@ -83,24 +84,29 @@ var YEARS=[
   {y:4,n:'4 ابتدائي',e:'🌻',c:'#ffa6c9'},
   {y:5,n:'5 ابتدائي',e:'🌟',c:'#ffb36b'}
 ];
+/* المواد الأساسية لكل السنوات */
 var SUBS=[
   {k:'math',n:'الرياضيات',e:'🔢',c:'#ffd54a'},
   {k:'arabic',n:'اللغة العربية',e:'📝',c:'#8ee6a0'},
   {k:'science',n:'التربية العلمية',e:'🔬',c:'#7fd3ff'},
   {k:'islam',n:'التربية الإسلامية',e:'🕌',c:'#ffa6c9'}
 ];
-var EXTRA=[
+/* من السنة الثالثة */
+var EXTRA3=[
   {k:'history',n:'التاريخ والجغرافيا',e:'🌍',c:'#b6f0e6'},
-  {k:'civic',n:'التربية المدنية',e:'🤝',c:'#ffe08a'},
-  {k:'french',n:'الفرنسية',e:'🇫🇷',c:'#bfe3ff'},
   {k:'english',n:'الإنجليزية',e:'🇬🇧',c:'#ffc9b0'}
+];
+/* من السنة الرابعة فقط */
+var EXTRA4=[
+  {k:'civic',n:'التربية المدنية',e:'🤝',c:'#ffe08a'},
+  {k:'french',n:'الفرنسية',e:'🇫🇷',c:'#bfe3ff'}
 ];
 
 var P=new URLSearchParams(location.search);
 var Y=parseInt(P.get('y'),10)||0, S=P.get('s')||'', K=P.get('k')||'';
 var yr=YEARS.filter(function(x){return x.y===Y;})[0]||null;
 if(!yr) Y=0;
-var pool=SUBS.concat(Y>=3?EXTRA:[]);
+var pool=SUBS.concat(Y>=3?EXTRA3:[], Y>=4?EXTRA4:[]);
 var sb=Y?(pool.filter(function(x){return x.k===S;})[0]||null):null;
 if(!sb) S='';
 if(!Y){S='';K='';}
@@ -114,21 +120,30 @@ function url(o){
   return 'primary.html'+(p.length?'?'+p.join('&'):'');
 }
 
-var title, subt, back, hello;
+var title, subt, hello;
 if(!Y){
-  title='التعليم الابتدائي'; subt='اختر السنة الدراسية'; back='index.html'; hello='مرحبا بكم MISHKATفي منصة   ';
+  title='التعليم الابتدائي'; subt='اختر السنة الدراسية'; hello='مرحبا بك في منصة MISHKAT';
 }else if(!S){
-  title=yr.n; subt='اختر المادة'; back='primary.html'; hello='MISHKAT مرحبا بكم في منصة    ';
+  title=yr.n; subt='اختر المادة'; hello='مرحبا بكم في منصة MISHKAT';
 }else if(!K){
-  title=sb.n; subt=yr.n; back=url({y:Y}); hello=' مرحبا بكم في منصة MISHKAT ';
+  title=sb.n; subt=yr.n; hello='مرحبا بكم في منصة MISHKAT';
 }else{
-  title='كتب الأنشطة'; subt=sb.n+' • '+yr.n; back=url({y:Y,s:S}); hello='مرحبا بكم في منصة MISHKAT   ';
+  title='كتب الأنشطة'; subt=sb.n+' • '+yr.n; hello='مرحبا بكم في منصة MISHKAT';
 }
 $('hello').textContent=hello;
 $('ttl').textContent=title;
 $('sub').textContent=subt;
-$('backb').href=back;
 document.title=title+' - أكاديمية مشكاة';
+
+/* زر الرجوع خطوة واحدة إلى الخلف (يختفي في الصفحة الأولى) */
+(function(){
+  var b=$('backb');
+  if(!Y){b.hidden=true;return;}
+  b.hidden=false;
+  if(!S){b.href='primary.html';}
+  else if(!K){b.href=url({y:Y});}
+  else{b.href=url({y:Y,s:S});}
+})();
 
 function card(label,em,color,href,onclick){
   var el=document.createElement(href?'a':'button');
@@ -148,7 +163,10 @@ if(!Y){
   g.appendChild(card('كتب الأنشطة','📒','#ffd54a',url({y:Y,s:S,k:'act'})));
   g.appendChild(card('التمارين','✏️','#8ee6a0',null,function(){say('تمارين «'+sb.n+'» قيد الإعداد ✨');}));
   g.appendChild(card('الدروس','📖','#7fd3ff',null,function(){say('دروس «'+sb.n+'» قيد الإعداد ✨');}));
-  g.appendChild(card('المحفوظات','🎵','#ffa6c9',null,function(){say('محفوظات «'+sb.n+'» قيد الإعداد ✨');}));
+  /* المحفوظات: فقط في مادة اللغة العربية */
+  if(S==='arabic'){
+    g.appendChild(card('المحفوظات','🎵','#ffa6c9',null,function(){say('محفوظات «'+sb.n+'» قيد الإعداد ✨');}));
+  }
 }else{
   g.appendChild(card('أنشطة لغوية','🔤','#ffd54a',null,function(){say('الأنشطة اللغوية قيد الإعداد ✨');}));
   g.appendChild(card('أنشطة رياضية','➕','#8ee6a0',null,function(){say('الأنشطة الرياضية قيد الإعداد ✨');}));
