@@ -530,28 +530,4 @@ var mock=document.querySelector('.hero .mock');
   a.rel='noopener';
   a.textContent='تصفّح الملخصات ←';
   btn.replaceWith(a);
-})();
-/* ===== 18) ربط بطاقة ملخصات منصة مشكاة بملفات PDF لدروس العلوم ===== */
-(function(){
-  if(!document.querySelector('.vgrid')) return;
-  var sj=localStorage.getItem('mishkat_subject')||'';
-  var ch=localStorage.getItem('mishkat_chapter')||'';
-  var PDF={
-    'تركيب البروتين':'protein.pdf',
-    'العلاقة بين البنية والوظيفة':'bonia.pdf'
-  };
-  if(sj!=='العلوم'||!PDF[ch]) return;
-  document.querySelectorAll('.vcard').forEach(function(card){
-    var tag=card.querySelector('.vtag');
-    if(!tag||tag.textContent.indexOf('ملخصات منصة مشكاة')===-1) return;
-    var btn=card.querySelector('button.vgo');
-    if(!btn) return;
-    var a=document.createElement('a');
-    a.className='vgo';
-    a.href=PDF[ch];
-    a.target='_blank';
-    a.rel='noopener';
-    a.textContent='تصفّح الملخصات ←';
-    btn.replaceWith(a);
-  });
-})();
+})(); 
