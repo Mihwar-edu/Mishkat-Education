@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>عرض الملف - أكاديمية مشكاة</title>
 <link rel="icon" href="logo.jpg">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preload" as="script" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
 <script>try{if(localStorage.getItem('mishkat_theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <style>
@@ -158,8 +161,14 @@ h1{font-size:clamp(20px,4.5vw,28px);font-weight:800;line-height:1.4;margin-top:2
   if(!window.pdfjsLib){fail('تعذّر تحميل أداة العرض، تأكد من الاتصال بالإنترنت.');return;}
   pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-  var pagesEl=$('pages'), pn=$('pn'), ents=[], io=null;
+  var pagesEl=$('pages'), pn=$('pn'), ents=[], io=null, pdfDoc=null;
   var dpr=Math.min(window.devicePixelRatio||1,2.5);
+
+  /* تحميل كائن الصفحة عند الحاجة فقط (الصفحة الأولى جاهزة من البداية) */
+  function getPg(e){
+    if(e.page) return Promise.resolve(e.page);
+    return pdfDoc.getPage(e.i).then(function(p){e.page=p;return p;});
+  }
 
   function freePage(e){
     e.tok++;
@@ -175,20 +184,31 @@ h1{font-size:clamp(20px,4.5vw,28px);font-weight:800;line-height:1.4;margin-top:2
     if(e.done||e.busy) return;
     e.busy=true;
     var tok=++e.tok;
-    var vp1=e.page.getViewport({scale:1});
-    var target=Math.min(e.W*dpr*1.6,1800);
-    var vp=e.page.getViewport({scale:target/vp1.width});
-    var c=e.canvas;
-    c.width=Math.floor(vp.width);
-    c.height=Math.floor(vp.height);
-    c.style.width=e.W+'px';
-    c.style.height=Math.round(e.W*vp1.height/vp1.width)+'px';
-    var task=e.page.render({canvasContext:c.getContext('2d'),viewport:vp});
-    e.task=task;
-    task.promise.then(function(){
+    getPg(e).then(function(page){
       if(tok!==e.tok) return;
-      e.done=true;
-      e.busy=false;
+      var vp1=page.getViewport({scale:1});
+      /* إذا اختلف مقاس الصفحة عن المتوقع نصحّح ارتفاعها */
+      if(Math.abs(vp1.width/vp1.height-e.w/e.h)>0.005){
+        e.w=vp1.width;
+        e.h=vp1.height;
+        e.el.style.height=Math.round(e.W*e.h/e.w)+'px';
+      }
+      var target=Math.min(e.W*dpr*1.25,1500);
+      var vp=page.getViewport({scale:target/vp1.width});
+      var c=e.canvas;
+      c.width=Math.floor(vp.width);
+      c.height=Math.floor(vp.height);
+      c.style.width=e.W+'px';
+      c.style.height=Math.round(e.W*vp1.height/vp1.width)+'px';
+      var task=page.render({canvasContext:c.getContext('2d'),viewport:vp});
+      e.task=task;
+      task.promise.then(function(){
+        if(tok!==e.tok) return;
+        e.done=true;
+        e.busy=false;
+      },function(){
+        if(tok===e.tok) e.busy=false;
+      });
     },function(){
       if(tok===e.tok) e.busy=false;
     });
@@ -239,32 +259,40 @@ h1{font-size:clamp(20px,4.5vw,28px);font-weight:800;line-height:1.4;margin-top:2
     rt=setTimeout(function(){if(ents.length) layout();},250);
   });
 
-  /* إعدادات لتصحيح تشوّه الخطوط العربية:
-     - disableFontFace: رسم الحروف كأشكال بدل الاعتماد على خطوط المتصفح
-     - cMapUrl / standardFontDataUrl: جداول الحروف والخطوط القياسية للمكتبة */
-  pdfjsLib.getDocument({
+  /* فتح الملف: يُحمَّل ما يلزم فقط، وتظهر الصفحة الأولى فور وصولها */
+  var loading=pdfjsLib.getDocument({
     url:f,
     disableFontFace:true,
+    disableAutoFetch:true,
+    rangeChunkSize:262144,
     cMapUrl:'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/cmaps/',
     cMapPacked:true,
     standardFontDataUrl:'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/standard_fonts/'
-  }).promise.then(function(pdf){
-    var n=pdf.numPages, list=[];
-    for(var i=1;i<=n;i++) list.push(pdf.getPage(i));
-    return Promise.all(list);
-  }).then(function(pgs){
+  });
+
+  loading.onProgress=function(p){
+    if(p&&p.total&&!loadEl.hidden){
+      loadEl.textContent='جاري تحميل الملف… '+Math.min(99,Math.round(p.loaded*100/p.total))+'%';
+    }
+  };
+
+  loading.promise.then(function(pdf){
+    pdfDoc=pdf;
+    return pdf.getPage(1);
+  }).then(function(p1){
+    var vp=p1.getViewport({scale:1});
+    var n=pdfDoc.numPages;
     var frag=document.createDocumentFragment();
-    pgs.forEach(function(p){
-      var vp=p.getViewport({scale:1});
+    for(var i=1;i<=n;i++){
       var el=document.createElement('div');
       el.className='pg';
       var c=document.createElement('canvas');
       el.appendChild(c);
-      var e={page:p,el:el,canvas:c,w:vp.width,h:vp.height,W:0,done:false,busy:false,tok:0,task:null};
+      var e={i:i,page:(i===1?p1:null),el:el,canvas:c,w:vp.width,h:vp.height,W:0,done:false,busy:false,tok:0,task:null};
       el.__ent=e;
       ents.push(e);
       frag.appendChild(el);
-    });
+    }
     pagesEl.appendChild(frag);
 
     io=new IntersectionObserver(function(es){
@@ -272,7 +300,7 @@ h1{font-size:clamp(20px,4.5vw,28px);font-weight:800;line-height:1.4;margin-top:2
         var e=x.target.__ent;
         if(x.isIntersecting){renderPage(e);}else{freePage(e);}
       });
-    },{root:pagesEl,rootMargin:'900px 0px 900px 0px'});
+    },{root:pagesEl,rootMargin:'700px 0px 700px 0px'});
 
     layout();
     requestAnimationFrame(layout);
