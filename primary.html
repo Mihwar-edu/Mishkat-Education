@@ -154,13 +154,10 @@ function card(label,em,color,href,onclick){
   return el;
 }
 
-/* بطاقة تفتح ملف PDF في تبويب جديد، وإن لم يوجد الملف تعرض «قيد الإعداد» */
+/* بطاقة تفتح الكتاب داخل عارض المنصة (pdfview.html)، وإن لم يوجد الملف تعرض «قيد الإعداد» */
 function pdfCard(label,em,color,file){
   if(file){
-    var a=card(label,em,color,file);
-    a.target='_blank';
-    a.rel='noopener';
-    return a;
+    return card(label,em,color,'pdfview.html?f='+encodeURIComponent(file)+'&t='+encodeURIComponent('كتاب الأنشطة • '+sb.n+' • '+yr.n));
   }
   return card(label,em,color,null,function(){say(label+' لـ'+yr.n+' قيد الإعداد ✨');});
 }
