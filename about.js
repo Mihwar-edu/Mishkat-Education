@@ -538,7 +538,12 @@ var mock=document.querySelector('.hero .mock');
   var ch=localStorage.getItem('mishkat_chapter')||'';
   var PDF={
     'تركيب البروتين':'protein.pdf',
-    'العلاقة بين البنية والوظيفة':'bonia.pdf'
+    'العلاقة بين البنية والوظيفة':'bonia.pdf',
+'دور البروتينات في التحفيز الانزيمي':'inzymes.pdf',
+    'المناعة':'manaa.pdf',
+    'الاتصال العصبي':'itisal.pdf',
+    'التركيب الضوئي':'Photosynthèse.pdf',
+    'التنفس':'La respiration.pdf'
   };
   if(sj!=='العلوم'||!PDF[ch]) return;
   document.querySelectorAll('.vcard').forEach(function(card){
