@@ -126,13 +126,16 @@ h1{font-size:clamp(20px,4.5vw,28px);font-weight:800;line-height:1.4;margin-top:2
     }else{say('انسخ الرابط من شريط العنوان');}
   };
 
+  /* اسم الملف: أي اسم ينتهي بـ pdf ولا يحتوي على مسار */
+  var okFile=/^[^\/\\?#:]+\.pdf$/i;
+
   var loadEl=$('load');
   function fail(msg){
     loadEl.hidden=false;
     loadEl.innerHTML='';
     var d=document.createElement('div');
     d.appendChild(document.createTextNode(msg||'تعذّر عرض الملف هنا.'));
-    if(/^[A-Za-z0-9_\-]+\.pdf$/i.test(f)){
+    if(okFile.test(f)){
       d.appendChild(document.createElement('br'));
       var a=document.createElement('a');
       a.href=f;
@@ -145,8 +148,7 @@ h1{font-size:clamp(20px,4.5vw,28px);font-weight:800;line-height:1.4;margin-top:2
     $('pill').hidden=true;
   }
 
-  /* اسم الملف يجب أن يكون بسيطاً وينتهي بـ pdf */
-  if(!/^[A-Za-z0-9_\-]+\.pdf$/i.test(f)){fail('الملف غير موجود.');return;}
+  if(!okFile.test(f)){fail('الملف غير موجود.');return;}
   $('dl').href=f;
   $('dl').setAttribute('download',f);
 
