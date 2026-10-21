@@ -502,8 +502,7 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
   }
 
   /* عنوان: اختر المشوار الدراسي */
-  
-var mock=document.querySelector('.hero .mock');
+  var mock=document.querySelector('.hero .mock');
   if(mock&&!mock.querySelector('.mshead')){
     var h=document.createElement('div');
     h.className='mshead';
@@ -511,41 +510,39 @@ var mock=document.querySelector('.hero .mock');
     mock.insertBefore(h,mock.firstChild);
   }
 })();
-/* ===== 17) ملخصات منصة مشكاة (PDF) لدروس العلوم ===== */
+
+/* ===== 18) ملخصات منصة مشكاة (PDF) لدروس العلوم: تُفتح داخل عارض المنصة ===== */
 (function(){
   if(!document.querySelector('.vgrid')) return;
   var sj=localStorage.getItem('mishkat_subject')||'';
   var ch=localStorage.getItem('mishkat_chapter')||'';
-  var PDF={
-    'تركيب البروتين':'protein.pdf',
-    'العلاقة بين البنية والوظيفة':'bonia.pdf'
-  };
-  if(sj!=='العلوم'||!PDF[ch]) return;
-  var btn=document.querySelector('button.vgo[data-n="ملخصات منصة مشكاة"]');
-  if(!btn) return;
-  var a=document.createElement('a');
-  a.className='vgo';
-  a.href=PDF[ch];
-  a.target='_blank';
-  a.rel='noopener';
-  a.textContent='تصفّح الملخصات ←';
-  btn.replaceWith(a);
-})();
-/* ===== 18) ربط بطاقة ملخصات منصة مشكاة بملفات PDF لدروس العلوم ===== */
-(function(){
-  if(!document.querySelector('.vgrid')) return;
-  var sj=localStorage.getItem('mishkat_subject')||'';
-  var ch=localStorage.getItem('mishkat_chapter')||'';
+
+  /* ✏️ أضف هنا ملفاً جديداً: 'اسم الدرس':'اسم-الملف.pdf' (فاصلة بين كل سطرين) */
   var PDF={
     'تركيب البروتين':'protein.pdf',
     'العلاقة بين البنية والوظيفة':'bonia.pdf',
-    'دور البروتينات في التحفيز الانزيمي':'inzymes.pdf',
+    'دور البروتينات في التحفيز الإنزيمي':'inzymes.pdf',
     'المناعة':'manaa.pdf',
     'الاتصال العصبي':'itisal.pdf',
     'التركيب الضوئي':'Photosynthèse.pdf',
     'التنفس':'La respiration.pdf'
   };
-  if(sj!=='العلوم'||!PDF[ch]) return;
+
+  /* مطابقة اسم الدرس دون حساسية للهمزة والتاء المربوطة والتشكيل */
+  function norm(s){
+    return String(s||'')
+      .replace(/[\u064B-\u065F\u0670]/g,'')
+      .replace(/[أإآ]/g,'ا')
+      .replace(/ى/g,'ي')
+      .replace(/ة/g,'ه')
+      .replace(/\s+/g,' ')
+      .trim();
+  }
+  var map={};
+  Object.keys(PDF).forEach(function(k){map[norm(k)]=PDF[k];});
+  var file=map[norm(ch)];
+
+  if(sj!=='العلوم'||!file) return;
   document.querySelectorAll('.vcard').forEach(function(card){
     var tag=card.querySelector('.vtag');
     if(!tag||tag.textContent.indexOf('ملخصات منصة مشكاة')===-1) return;
@@ -553,9 +550,7 @@ var mock=document.querySelector('.hero .mock');
     if(!btn) return;
     var a=document.createElement('a');
     a.className='vgo';
-    a.href=PDF[ch];
-    a.target='_blank';
-    a.rel='noopener';
+    a.href='pdfview.html?f='+encodeURIComponent(file)+'&t='+encodeURIComponent('ملخص '+ch);
     a.textContent='تصفّح الملخصات ←';
     btn.replaceWith(a);
   });
