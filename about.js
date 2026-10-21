@@ -539,7 +539,7 @@ var mock=document.querySelector('.hero .mock');
   var PDF={
     'تركيب البروتين':'protein.pdf',
     'العلاقة بين البنية والوظيفة':'bonia.pdf',
-'دور البروتينات في التحفيز الانزيمي':'inzymes.pdf',
+    'دور البروتينات في التحفيز الانزيمي':'inzymes.pdf',
     'المناعة':'manaa.pdf',
     'الاتصال العصبي':'itisal.pdf',
     'التركيب الضوئي':'Photosynthèse.pdf',
