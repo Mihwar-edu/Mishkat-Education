@@ -511,3 +511,23 @@ var mock=document.querySelector('.hero .mock');
     mock.insertBefore(h,mock.firstChild);
   }
 })();
+/* ===== 17) ملخصات منصة مشكاة (PDF) لدروس العلوم ===== */
+(function(){
+  if(!document.querySelector('.vgrid')) return;
+  var sj=localStorage.getItem('mishkat_subject')||'';
+  var ch=localStorage.getItem('mishkat_chapter')||'';
+  var PDF={
+    'تركيب البروتين':'protein.pdf',
+    'العلاقة بين البنية والوظيفة':'bonia.pdf'
+  };
+  if(sj!=='العلوم'||!PDF[ch]) return;
+  var btn=document.querySelector('button.vgo[data-n="ملخصات منصة مشكاة"]');
+  if(!btn) return;
+  var a=document.createElement('a');
+  a.className='vgo';
+  a.href=PDF[ch];
+  a.target='_blank';
+  a.rel='noopener';
+  a.textContent='تصفّح الملخصات ←';
+  btn.replaceWith(a);
+})();
