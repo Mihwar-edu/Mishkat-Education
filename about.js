@@ -555,3 +555,87 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
     btn.replaceWith(a);
   });
 })();
+/* ===== 19) تخفيف الرسوم (توهج ثابت) وتسريع التنقل ===== */
+(function(){
+  /* توهج ثابت بدل المتحرك: أخفّ على الهاتف، ولا بنفسجي في أي بطاقة */
+  var st=document.createElement('style');
+  st.textContent=''
+  +'.b,.eng,.bc{animation:none!important}'
+  +'.b:not([data-b]):not([data-s]):not([data-c]):not([data-t]){border-color:#ff9f1c!important;box-shadow:0 0 12px 1px #ff9f1c,0 0 24px #ff9f1c!important}'
+  +'.b[data-b]{box-shadow:0 0 12px 1px var(--bc),0 0 24px var(--bc)!important}'
+  +'.b[data-s],.b[data-c],.b[data-t]{box-shadow:0 0 12px 1px var(--sc,#ff9f1c),0 0 24px var(--sc,#ff9f1c)!important}'
+  +'.b[data-b]:hover,.b[data-b]:focus-visible{box-shadow:0 0 18px 3px var(--bc),0 12px 30px var(--bc)!important}'
+  +'.b[data-s]:hover,.b[data-c]:hover,.b[data-t]:hover,.b[data-s]:focus-visible,.b[data-c]:focus-visible,.b[data-t]:focus-visible{box-shadow:0 0 18px 3px var(--sc,#ff9f1c),0 12px 30px var(--sc,#ff9f1c)!important}'
+  +'.eng{border-color:#facc15!important;box-shadow:0 0 12px 1px #facc15,0 0 24px #facc15!important}'
+  +'.eng:hover,.eng:focus-visible{border-color:#fde047!important}'
+  +'.bc{border-color:var(--bc,#ff9f1c)!important;box-shadow:0 0 12px 1px var(--bc,#ff9f1c),0 0 24px var(--bc,#ff9f1c)!important}'
+  +'.bc:hover,.bc:focus-visible{border-color:var(--bc,#ff9f1c)!important}'
+  +'.ab{animation:none!important;background-size:100% 100%!important}';
+  document.head.appendChild(st);
+
+  /* كبسولات الصفحة الرئيسية بلون كل شعبة */
+  var BC={
+    'علوم تجريبية':['#4ade80','#15803d'],
+    'رياضيات':['#60a5fa','#1d4ed8'],
+    'تقني رياضي':['#facc15','#a16207'],
+    'تسيير واقتصاد':['#fb923c','#c2410c']
+  };
+  document.querySelectorAll('.bc[data-b]').forEach(function(el){
+    var c=BC[el.getAttribute('data-b')];
+    if(!c) return;
+    el.style.setProperty('--bc',c[0]);
+    var ic=el.querySelector('.bc-i');
+    if(ic){ic.style.background=c[0]+'33';ic.style.color=c[1];}
+  });
+})();
+
+(function(){
+  /* تحميل الصفحات المحتملة مسبقاً ليكون الانتقال شبه فوري */
+  var cn=navigator.connection||{};
+  if(cn.saveData||/(^|-)2g$/.test(cn.effectiveType||'')) return;
+
+  var here=location.pathname.split('/').pop()||'index.html';
+  var NEXT={
+    'index.html':['subjects.html','branches.html','bac.html','primary.html','beam.html','university.html'],
+    'branches.html':['subjects.html'],
+    'subjects.html':['math.html','physics.html','science.html','islamic.html','section.html'],
+    'math.html':['lesson.html'],
+    'physics.html':['lesson.html'],
+    'science.html':['lesson.html'],
+    'islamic.html':['lesson.html'],
+    'section.html':['summaries.html'],
+    'lesson.html':['summaries.html','videos.html','physvideos.html','scivideos.html','islvideos.html'],
+    'summaries.html':['pdfview.html'],
+    'videos.html':['watch.html'],
+    'physvideos.html':['watch.html','physlessons.html'],
+    'physlessons.html':['watch.html'],
+    'scivideos.html':['watch.html'],
+    'islvideos.html':['watch.html']
+  };
+
+  var done={};
+  function prefetch(u){
+    if(!u||done[u]||u===here) return;
+    done[u]=1;
+    var l=document.createElement('link');
+    l.rel='prefetch';
+    l.href=u;
+    document.head.appendChild(l);
+  }
+
+  function go(){(NEXT[here]||[]).forEach(prefetch);}
+  if('requestIdleCallback' in window){requestIdleCallback(go,{timeout:2500});}
+  else{setTimeout(go,1500);}
+
+  /* وعند لمس أو تمرير الفأرة على أي رابط داخلي نحمّل صفحته فوراً */
+  function hint(e){
+    var a=e.target&&e.target.closest?e.target.closest('a[href]'):null;
+    if(!a||a.target==='_blank'||a.hasAttribute('download')) return;
+    var u;
+    try{u=new URL(a.getAttribute('href'),location.href);}catch(x){return;}
+    if(u.origin!==location.origin||!/\.html$/.test(u.pathname)) return;
+    prefetch(u.pathname.split('/').pop()+u.search);
+  }
+  document.addEventListener('touchstart',hint,{passive:true,capture:true});
+  document.addEventListener('mouseover',hint,{passive:true,capture:true});
+})();
