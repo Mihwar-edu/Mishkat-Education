@@ -788,3 +788,54 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
     });
   }
 })();
+/* ===== 22) حواف زرقاء عادية بلا توهج، وبطاقات أصغر قليلاً ===== */
+(function(){
+  var BLUE='#0a84ff';   /* لون الحواف: نفس لون زر «تعرّف على المنصة» */
+  var TINT=0.15;        /* نسبة الأزرق داخل البطاقة (15%) */
+  var tint='rgba(10,132,255,'+TINT+')';
+  var fill='linear-gradient('+tint+','+tint+')';
+
+  var css=''
+  /* حواف زرقاء عادية بلا توهج وبلا حركة */
+  +'html body .b.b.b.b.b.b.b,html body .b.b.b.b.b.b.b:hover,html body .b.b.b.b.b.b.b:focus-visible,'
+  +'html body .eng.eng.eng.eng,html body .eng.eng.eng.eng:hover,'
+  +'html body .tl.tl.tl.tl,html body .tl.tl.tl.tl:hover{'
+  +'border:2px solid '+BLUE+'!important;box-shadow:none!important;animation:none!important;background-image:'+fill+'!important}'
+
+  /* حجم أصغر لبطاقات الشعب والمواد والدروس */
+  +'html body .b.b.b.b.b.b.b{padding:14px 8px!important;border-radius:16px!important;font-size:15px!important}'
+
+  /* الأيقونات: أزرق موحد وحجم أصغر */
+  +'html body .pi.pi{width:52px!important;height:52px!important;border-radius:16px!important}'
+  +'html body .pi.pi svg{width:30px!important;height:30px!important}'
+  +'html body .b.b .pi.pi{background:linear-gradient(145deg,#4cc3ff,#0a84ff 55%,#1d57d6)!important;box-shadow:0 8px 16px rgba(10,132,255,.25)!important}'
+  +'html body .has-pi.has-pi{margin-bottom:10px!important}'
+  +'@media (min-width:900px){html body .pi.pi{width:60px!important;height:60px!important}html body .pi.pi svg{width:34px!important;height:34px!important}}'
+
+  /* أرقام الدروس بالأزرق الموحد */
+  +'html body .b.b.b[data-c] span{color:'+BLUE+'!important}'
+
+  /* كبسولات الشعب في الصفحة الرئيسية */
+  +'html body .bc.bc.bc.bc,html body .bc.bc.bc.bc:hover,html body .bc.bc.bc.bc:focus-visible{'
+  +'border:2px solid '+BLUE+'!important;box-shadow:none!important;animation:none!important;background-image:'+fill+'!important;'
+  +'min-width:186px!important;min-height:58px!important;padding:7px 14px 7px 16px!important}'
+  +'@media (min-width:801px){html body .bc.bc.bc.bc{min-width:212px!important;min-height:64px!important}}'
+  +'html body .bc .bc-i.bc-i{width:34px!important;height:34px!important;background:rgba(10,132,255,.16)!important;color:'+BLUE+'!important}'
+  +'html body .bc .bc-t{font-size:13.5px!important}'
+  +'html body .bc .bc-s{font-size:11px!important}'
+
+  /* بطاقات الباكالوريا */
+  +'html body .tl.tl.tl.tl{min-height:92px!important;padding:14px 8px!important;font-size:15px!important}'
+  +'html body .tl.tl.tl.tl.year{min-height:70px!important;font-size:22px!important}'
+  +'html body .tl .tl-ic.tl-ic{width:46px!important;height:46px!important;margin-bottom:6px!important}'
+  +'html body .tl .tl-ic.tl-ic svg{width:24px!important;height:24px!important}';
+
+  var st=document.createElement('style');
+  st.textContent=css;
+  document.head.appendChild(st);
+
+  /* الصفحة الرئيسية: إعادة حساب الشريط المتحرك بعد تغيير الأحجام */
+  if(document.getElementById('bq')){
+    try{window.dispatchEvent(new Event('resize'));}catch(e){}
+  }
+})();
