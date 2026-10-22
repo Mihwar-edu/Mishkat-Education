@@ -705,3 +705,49 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
   }
   tryNext(0);
 })();
+/* ===== 21) العلوم الإسلامية: حذف سلاسل الميزان وملخصات منصة مشكاة + ربط كتابي بوسعادي وشمس الدين ===== */
+(function(){
+  var sj=localStorage.getItem('mishkat_subject')||'';
+  if(sj!=='العلوم الإسلامية') return;
+
+  /* 1) صفحة الدرس: حذف بطاقة سلاسل الميزان */
+  var ser=document.querySelector('.b[data-t="ser"]');
+  if(ser){
+    var grid=ser.parentNode;
+    ser.remove();
+    var bs=[].slice.call(grid.children).filter(function(c){return c.classList.contains('b');});
+    if(bs.length%2===1){
+      bs[bs.length-1].classList.add('solo');
+      var st=document.createElement('style');
+      st.textContent='@media (max-width:899px){.grid > .b.solo{grid-column:1/-1;justify-self:center;width:calc(50% - 8px)}}';
+      document.head.appendChild(st);
+    }
+  }
+
+  /* 2) صفحة الملخصات: حذف ملخصات منصة مشكاة، وربط الكتابين */
+  var vg=document.querySelector('.vgrid');
+  if(vg&&/summaries/.test(location.pathname)){
+    var BOOKS=[
+      ['بوسعادي','bousaadi.pdf','ملخصات كتاب الأستاذة بوسعادي'],
+      ['شمس الدين','shams.pdf','ملخصات كتاب الأستاذ شمس الدين']
+    ];
+    [].slice.call(vg.querySelectorAll('.vcard')).forEach(function(card){
+      var tag=card.querySelector('.vtag');
+      var txt=tag?tag.textContent:'';
+      if(txt.indexOf('ملخصات منصة مشكاة')>-1){card.remove();return;}
+      BOOKS.forEach(function(b){
+        if(txt.indexOf(b[0])===-1) return;
+        var btn=card.querySelector('button.vgo');
+        if(!btn) return;
+        fetch(b[1],{method:'HEAD',cache:'no-store'}).then(function(r){
+          if(!r.ok) return;
+          var a=document.createElement('a');
+          a.className='vgo';
+          a.href='pdfview.html?f='+encodeURIComponent(b[1])+'&t='+encodeURIComponent(b[2]);
+          a.textContent='تصفّح الملخصات ←';
+          btn.replaceWith(a);
+        }).catch(function(){});
+      });
+    });
+  }
+})();
