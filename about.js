@@ -639,3 +639,69 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
   document.addEventListener('touchstart',hint,{passive:true,capture:true});
   document.addEventListener('mouseover',hint,{passive:true,capture:true});
 })();
+/* ===== 20) ملخصات الرياضيات (PDF) لشعب: علوم تجريبية، رياضيات، تقني رياضي ===== */
+(function(){
+  if(!document.querySelector('.vgrid')) return;
+  var sj=localStorage.getItem('mishkat_subject')||'';
+  if(sj!=='الرياضيات') return;
+  var br=localStorage.getItem('mishkat_branch')||'';
+  var ch=localStorage.getItem('mishkat_chapter')||'';
+
+  var BR={'علوم تجريبية':'se','رياضيات':'m','تقني رياضي':'tm'};
+  var b=BR[br];
+  if(!b) return;
+
+  function norm(s){
+    return String(s||'')
+      .replace(/[\u064B-\u065F\u0670]/g,'')
+      .replace(/[أإآ]/g,'ا')
+      .replace(/ى/g,'ي')
+      .replace(/ة/g,'ه')
+      .replace(/\s+/g,' ')
+      .trim();
+  }
+
+  /* رمز كل درس، ويُتعرَّف عليه من كلمة داخل اسمه */
+  var CH=[
+    ['func','العدديه'],
+    ['exp','اسيه'],
+    ['ln','اللوغاريتميه'],
+    ['seq','المتتاليات'],
+    ['prob','الاحتمالات'],
+    ['complex','المركبه'],
+    ['div','القسمه'],
+    ['prim','الاصليه']
+  ];
+  var n=norm(ch), code='';
+  for(var i=0;i<CH.length;i++){
+    if(n.indexOf(CH[i][1])>-1){code=CH[i][0];break;}
+  }
+  if(!code) return;
+
+  /* يبحث أولاً عن ملف الشعبة، ثم عن ملف مشترك بين الشعب */
+  var cands=['math-'+b+'-'+code+'.pdf','math-'+code+'.pdf'];
+
+  var card=null;
+  document.querySelectorAll('.vcard').forEach(function(c){
+    var tag=c.querySelector('.vtag');
+    if(tag&&tag.textContent.indexOf('ملخصات منصة مشكاة')>-1) card=c;
+  });
+  if(!card) return;
+  var btn=card.querySelector('button.vgo');
+  if(!btn) return;
+
+  function show(file){
+    var a=document.createElement('a');
+    a.className='vgo';
+    a.href='pdfview.html?f='+encodeURIComponent(file)+'&t='+encodeURIComponent('ملخص '+ch+' — شعبة '+br);
+    a.textContent='تصفّح الملخصات ←';
+    btn.replaceWith(a);
+  }
+  function tryNext(k){
+    if(k>=cands.length) return;
+    fetch(cands[k],{method:'HEAD',cache:'no-store'}).then(function(r){
+      if(r.ok){show(cands[k]);}else{tryNext(k+1);}
+    }).catch(function(){tryNext(k+1);});
+  }
+  tryNext(0);
+})();
