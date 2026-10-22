@@ -705,26 +705,63 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
   }
   tryNext(0);
 })();
-/* ===== 21) العلوم الإسلامية: حذف سلاسل الميزان وملخصات منصة مشكاة + ربط كتابي بوسعادي وشمس الدين ===== */
+/* ===== 21) العلوم الإسلامية: كتاب السلسلة الخضراء + ملخصات بوسعادي وشمس الدين ===== */
 (function(){
   var sj=localStorage.getItem('mishkat_subject')||'';
   if(sj!=='العلوم الإسلامية') return;
 
-  /* 1) صفحة الدرس: حذف بطاقة سلاسل الميزان */
+  /* 1) صفحة الدرس: بطاقة سلاسل الميزان تصبح «كتاب السلسلة الخضراء» */
   var ser=document.querySelector('.b[data-t="ser"]');
   if(ser){
-    var grid=ser.parentNode;
-    ser.remove();
-    var bs=[].slice.call(grid.children).filter(function(c){return c.classList.contains('b');});
-    if(bs.length%2===1){
-      bs[bs.length-1].classList.add('solo');
-      var st=document.createElement('style');
-      st.textContent='@media (max-width:899px){.grid > .b.solo{grid-column:1/-1;justify-self:center;width:calc(50% - 8px)}}';
-      document.head.appendChild(st);
+    var COLOR='#fb923c';   /* لون الحواف: للأخضر اجعله #4ade80 */
+    var FILE='green.pdf';
+    var TITLE='كتاب السلسلة الخضراء';
+
+    var n=ser.cloneNode(true);
+    n.removeAttribute('data-t');
+    n.setAttribute('data-g','green');
+
+    /* تغيير النص */
+    var tw=document.createTreeWalker(n,NodeFilter.SHOW_TEXT,null);
+    var first=true, tn;
+    while((tn=tw.nextNode())){
+      if(!tn.nodeValue.trim()) continue;
+      if(first){tn.nodeValue=TITLE;first=false;}else{tn.nodeValue='';}
     }
+
+    /* أيقونة كتاب مغلق */
+    var pi=n.querySelector('.pi');
+    if(pi){
+      pi.innerHTML='<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M8 4h16a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H8z"/><path d="M8 4v24"/><path d="M13 10h9M13 15h9"/></svg>';
+    }
+
+    /* لون الحواف */
+    var st=document.createElement('style');
+    st.textContent='.b.b.b.b.b.b[data-g]{border-color:'+COLOR+'!important;box-shadow:0 0 12px 1px '+COLOR+',0 0 24px '+COLOR+'!important;animation:none!important}'
+      +'.b.b.b.b.b.b[data-g]:hover,.b.b.b.b.b.b[data-g]:focus-visible{box-shadow:0 0 18px 3px '+COLOR+',0 12px 30px '+COLOR+'!important}';
+    document.head.appendChild(st);
+
+    var note=function(){
+      var toast=document.getElementById('toast');
+      if(!toast) return;
+      toast.textContent='«'+TITLE+'» قيد الإعداد، وسيُضاف قريباً ✨';
+      toast.classList.add('on');
+      setTimeout(function(){toast.classList.remove('on');},2800);
+    };
+
+    /* عند الضغط: يفتح الكتاب إن وُجد، وإلا تظهر رسالة قيد الإعداد */
+    n.addEventListener('click',function(){
+      fetch(FILE,{method:'HEAD',cache:'no-store'}).then(function(r){
+        if(r.ok){
+          location.href='pdfview.html?f='+encodeURIComponent(FILE)+'&t='+encodeURIComponent(TITLE);
+        }else{note();}
+      }).catch(note);
+    });
+
+    ser.replaceWith(n);
   }
 
-  /* 2) صفحة الملخصات: حذف ملخصات منصة مشكاة، وربط الكتابين */
+  /* 2) صفحة الملخصات: حذف ملخصات منصة مشكاة، وربط كتابي بوسعادي وشمس الدين */
   var vg=document.querySelector('.vgrid');
   if(vg&&/summaries/.test(location.pathname)){
     var BOOKS=[
