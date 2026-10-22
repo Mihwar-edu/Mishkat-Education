@@ -924,3 +924,10 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
 
   nav.insertBefore(btn,nav.querySelector('.btn.p')||null);
 })();
+/* ===== 25) إصلاح أيقونة بطاقة «تسيير واقتصاد» في الصفحة الرئيسية ===== */
+(function(){
+  if(!document.querySelector('.bc')) return;
+  var st=document.createElement('style');
+  st.textContent='html body .bc .bc-i.b.b.b.b.b.b.b,html body .bc .bc-i.b.b.b.b.b.b.b:hover{padding:0!important;border:0!important;border-radius:50%!important;background-image:none!important;box-shadow:none!important;font-size:inherit!important}';
+  document.head.appendChild(st);
+})();
