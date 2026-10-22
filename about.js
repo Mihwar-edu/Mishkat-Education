@@ -839,3 +839,88 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
     try{window.dispatchEvent(new Event('resize'));}catch(e){}
   }
 })();
+/* ===== 23) الصفحة الرئيسية: نهارية افتراضياً + زر الوضع الليلي/النهاري بجانب «سجّل الآن» ===== */
+(function(){
+  if(!document.querySelector('.hero.wm')) return;
+  var root=document.documentElement;
+
+  /* منع المتصفح من تحويل الصفحة إلى الوضع الليلي تلقائياً */
+  var m=document.createElement('meta');
+  m.name='color-scheme';
+  m.content='only light';
+  document.head.appendChild(m);
+
+  var P='html body:not(.x) ';
+  var D='html[data-home="dark"] body:not(.x) ';
+  var css=''
+  /* ===== الوضع النهاري ===== */
+  +'html:root:root:root{color-scheme:light!important;--bg:#fff!important;--soft:#f7f9fb!important;--card:#fff!important;--ink:#101828!important;--muted:#667085!important;--line:#eaeef3!important}'
+  +'html body:not(.x){background:#fff!important;color:#101828!important}'
+  +P+'.hero.wm{background:linear-gradient(135deg,#e3f4ff,#f4fbff 60%,#fffbea)!important}'
+  +P+'section.f.wm{background:#f7f9fb!important}'
+  +P+'.wm::before{opacity:.09!important}'
+  +P+'.hero h1{color:#101828!important}'
+  +P+'.hero p{color:#667085!important}'
+  +P+'.stats small{color:#667085!important}'
+  +P+'.mock .mshead{color:#101828!important}'
+  +P+'.hbtns .btn.wt,'+P+'.btn.wt{background:#fff!important;color:#101828!important;border:1.5px solid #0a84ff!important;box-shadow:none!important}'
+
+  /* ===== شكل الزر ===== */
+  +'.tg{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:40px;margin:0;padding:0 14px;border-radius:999px;background:var(--card);color:#0a84ff;border:1.5px solid #0a84ff;font:inherit;font-size:13.5px;font-weight:700;cursor:pointer;white-space:nowrap}'
+  +'.tg:hover,.tg:focus-visible{background:#0a84ff;color:#fff}'
+  /* الهاتف: الزر رمز فقط، والشريط العلوي أضيق قليلاً */
+  +'@media (max-width:480px){'
+  +'.tg{width:40px;padding:0}.tg-t{display:none}.tg-i{font-size:18px}'
+  +'html body header{gap:8px}'
+  +'html body header .logo{font-size:16px}'
+  +'html body header .lg-img{width:36px;height:36px}'
+  +'html body header nav{gap:8px}'
+  +'html body header nav .btn.p{padding:8px 14px;font-size:14px}'
+  +'}'
+
+  /* ===== الوضع الليلي ===== */
+  +'html[data-home="dark"]:root:root:root{color-scheme:dark!important;--bg:#0d141c!important;--soft:#121b25!important;--card:#16212d!important;--ink:#f2f5f8!important;--muted:#9aa7b6!important;--line:#223041!important}'
+  +'html[data-home="dark"] body:not(.x){background:#0d141c!important;color:#f2f5f8!important}'
+  +D+'.hero.wm{background:linear-gradient(135deg,#0f2438,#0d141c)!important}'
+  +D+'section.f.wm{background:#121b25!important}'
+  +D+'.wm::before{opacity:.07!important}'
+  +D+'.hero h1{color:#fff!important}'
+  +D+'.hero p{color:#9aa7b6!important}'
+  +D+'.stats small{color:#9aa7b6!important}'
+  +D+'.mock .mshead{color:#f2f5f8!important}'
+  +D+'.hbtns .btn.wt,'+D+'.btn.wt{background:#16212d!important;color:#fff!important;border:1.5px solid #0a84ff!important;box-shadow:none!important}';
+
+  var st=document.createElement('style');
+  st.textContent=css;
+  document.head.appendChild(st);
+
+  /* ===== الزر بجانب «سجّل الآن» ===== */
+  var nav=document.querySelector('header nav');
+  if(!nav||document.getElementById('home-theme')) return;
+
+  var btn=document.createElement('button');
+  btn.id='home-theme';
+  btn.type='button';
+  btn.className='tg';
+  btn.innerHTML='<span class="tg-i"></span><span class="tg-t"></span>';
+  var ic=btn.querySelector('.tg-i'), tx=btn.querySelector('.tg-t');
+
+  function apply(dark){
+    if(dark){root.setAttribute('data-home','dark');}else{root.removeAttribute('data-home');}
+    ic.textContent=dark?'☀️':'🌙';
+    tx.textContent=dark?'الوضع النهاري':'الوضع الليلي';
+    btn.setAttribute('aria-label',dark?'الوضع النهاري':'الوضع الليلي');
+  }
+
+  var dark=false;
+  try{dark=localStorage.getItem('mishkat_theme')==='dark';}catch(e){}
+  apply(dark);
+
+  btn.addEventListener('click',function(){
+    dark=!dark;
+    apply(dark);
+    try{localStorage.setItem('mishkat_theme',dark?'dark':'light');}catch(e){}
+  });
+
+  nav.insertBefore(btn,nav.querySelector('.btn.p')||null);
+})();
