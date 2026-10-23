@@ -998,3 +998,55 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
   }
   tryNext(0);
 })();
+/* ===== 27) نافذة «تعرّف على المنصة»: بطاقة عن همة + اسم المطور ===== */
+(function(){
+  var mb=document.querySelector('#ov .mb');
+  if(!mb||document.getElementById('hm-card')) return;
+
+  var st=document.createElement('style');
+  st.textContent=''
+  +'.hm{margin-top:22px;opacity:0;transform:translateY(16px);transition:opacity .55s ease .75s,transform .55s ease .75s}'
+  +'.ov.show .hm{opacity:1;transform:none}'
+  +'.hm-pill{position:relative;overflow:hidden;border-radius:38px;padding:22px 20px 24px;text-align:center;color:#eaf2ff;background:linear-gradient(135deg,#0b2a5b 0%,#071a3d 45%,#02060f 100%);border:2px solid rgba(120,170,255,.35);box-shadow:0 16px 34px rgba(0,10,40,.55)}'
+  +'.hm-pill::before{content:"";position:absolute;right:-50px;top:-60px;width:150px;height:150px;border-radius:50%;background:rgba(80,140,255,.16);pointer-events:none}'
+  +'.hm-pill>*{position:relative}'
+  +'.hm-tag{display:inline-block;background:#fff;color:#0b2a5b;padding:6px 18px;border-radius:999px;font-weight:800;font-size:14.5px;box-shadow:0 6px 14px rgba(0,0,0,.25)}'
+  +'.hm-it{display:flex;gap:12px;align-items:flex-start;text-align:right;margin-top:16px}'
+  +'.hm-n{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;direction:ltr;font-weight:800;font-size:15px;color:#9cc4ff;background:rgba(120,170,255,.16);border:1px solid rgba(120,170,255,.4)}'
+  +'.hm-t{display:block;font-weight:800;font-size:15.5px;color:#fff;text-shadow:none}'
+  +'.hm-d{margin:3px 0 0;font-size:14px;line-height:1.85;font-weight:500;color:#c9d9f5;text-shadow:none}'
+  +'.hm-note{margin:18px 0 0;padding:11px 14px;border-radius:18px;background:rgba(255,255,255,.07);color:#ffd27a;font-size:13.5px;line-height:1.85;font-weight:600;text-shadow:none}'
+  +'.hm-dv{margin:16px 0 0;font-size:14.5px;font-weight:800;color:#fff;text-shadow:none}'
+  +'.hm-go{display:inline-block;margin-top:14px;background:#fff;color:#0b2a5b;padding:10px 24px;border-radius:999px;font-weight:800;font-size:14px;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3)}'
+  +'.hm-go:hover,.hm-go:focus-visible{background:#e6efff}'
+  +'@media (prefers-reduced-motion:reduce){.hm{opacity:1;transform:none;transition:none}}';
+  document.head.appendChild(st);
+
+  var d=document.createElement('div');
+  d.id='hm-card';
+  d.className='hm';
+  d.innerHTML=''
+  +'<div class="hm-pill">'
+  +'<span class="hm-tag">🌟 عن منصة همة</span>'
+
+  +'<div class="hm-it"><span class="hm-n">01</span><div>'
+  +'<span class="hm-t">مجانية بالكامل</span>'
+  +'<p class="hm-d">لا حسابات ولا اشتراكات ولا دفع. تموّل المنصة بإعلانات خفيفة لا تعيق المراجعة.</p>'
+  +'</div></div>'
+
+  +'<div class="hm-it"><span class="hm-n">02</span><div>'
+  +'<span class="hm-t">مرتبة كما تدرس</span>'
+  +'<p class="hm-d">الشعبة ← المادة ← الوحدة ← نوع المورد. تصل إلى ما تريده في خطوات قليلة.</p>'
+  +'</div></div>'
+
+  +'<div class="hm-it"><span class="hm-n">03</span><div>'
+  +'<span class="hm-t">مصممة للهاتف</span>'
+  +'<p class="hm-d">واجهة عربية خفيفة وسريعة، مع تنقل سفلي يسهل الوصول إليه بإبهام واحد.</p>'
+  +'</div></div>'
+
+  +'<p class="hm-note">المحتوى يُضاف تدريجيًا. الأقسام التي تحمل علامة «قيد الإضافة» جاهزة هيكليًا وسيُنشر فيها المحتوى الحقيقي فور تجهيزه</p>'
+  +'<p class="hm-dv">المطور: داودي محمد جلال الدين 👨‍💻</p>'
+  +'<a class="hm-go" href="https://himma-sigma.vercel.app/" target="_blank" rel="noopener">زيارة منصة همة ←</a>'
+  +'</div>';
+  mb.appendChild(d);
+})();
