@@ -1257,3 +1257,84 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
     })(0);
   });
 })();
+/* ===== 31) «سلاسل الميزان» تصبح «حقيبة عكاشة (فيديو)» ===== */
+(function(){
+  var card=document.querySelector('.b[data-t="ser"],.b[data-g="ser"]');
+  if(!card) return;
+
+  var sj=localStorage.getItem('mishkat_subject')||'';
+  var ch=localStorage.getItem('mishkat_chapter')||'';
+  var SJ={'الرياضيات':'math','الفيزياء':'phys','العلوم':'sci'};
+  var s=SJ[sj]||'';
+  var TITLE='حقيبة عكاشة (فيديو)';
+
+  /* ✏️ روابط حقيبة عكاشة: رمز الدرس : معرّف الفيديو (الجزء بعد youtu.be/ وقبل علامة ؟)
+     رموز دروس الرياضيات: func exp ln seq prob complex div prim
+     رموز دروس الفيزياء: time mech elec ph nucl ester osc */
+  var OK={
+    sci:{
+      prot:'Lg7awTpB74s',
+      struct:'hRmKwvYBK0o',
+      enz:'b-PzhqsxESo',
+      imm:'MCl6EpL0dWA',
+      nerve:'Jlho7146fJw',
+      photo:'sXE2BTy7tsY',
+      resp:'sXE2BTy7tsY'
+    },
+    math:{},
+    phys:{}
+  };
+
+  function norm(x){
+    return String(x||'')
+      .replace(/[\u064B-\u065F\u0670]/g,'')
+      .replace(/[أإآ]/g,'ا')
+      .replace(/ى/g,'ي')
+      .replace(/ة/g,'ه')
+      .replace(/\s+/g,' ')
+      .trim()
+      .toLowerCase();
+  }
+
+  /* رمز كل درس، ويُتعرَّف عليه من كلمة داخل اسمه (الترتيب مهم) */
+  var CODES={
+    math:[['seq','المتتاليات'],['func','العدديه'],['exp','اسيه'],['ln','اللوغاريتميه'],['prob','الاحتمالات'],['complex','المركبه'],['div','القسمه'],['prim','الاصليه']],
+    phys:[['ester','استره'],['time','الزمنيه'],['mech','الميكانيك'],['elec','كهرب'],['ph','توازن'],['ph','ph'],['nucl','النوويه'],['osc','اهتزاز']],
+    sci:[['enz','التحفيز'],['photo','الضوئي'],['nerve','العصبي'],['imm','المناعه'],['struct','البنيه'],['prot','تركيب'],['resp','التنفس']]
+  };
+  var id='';
+  if(s){
+    var nm=norm(ch), list=CODES[s], code='';
+    for(var i=0;i<list.length;i++){
+      if(nm.indexOf(list[i][1])>-1){code=list[i][0];break;}
+    }
+    id=(OK[s]&&OK[s][code])||'';
+  }
+
+  /* نسخة جديدة من البطاقة بلا أي حدث قديم، وباسم جديد */
+  var n2=card.cloneNode(true);
+  n2.removeAttribute('data-t');
+  n2.setAttribute('data-g','okacha');
+  var tw=document.createTreeWalker(n2,NodeFilter.SHOW_TEXT,null);
+  var first=true, tn;
+  while((tn=tw.nextNode())){
+    if(!tn.nodeValue.trim()) continue;
+    if(first){tn.nodeValue=TITLE;first=false;}else{tn.nodeValue='';}
+  }
+  card.replaceWith(n2);
+
+  var toast=document.getElementById('toast'), tm;
+  function note(){
+    if(!toast) return;
+    toast.textContent='حقيبة عكاشة لدرس «'+ch+'» قيد الإعداد، وستُضاف قريباً ✨';
+    toast.classList.add('on');
+    clearTimeout(tm);
+    tm=setTimeout(function(){toast.classList.remove('on');},2800);
+  }
+
+  n2.addEventListener('click',function(){
+    if(id){
+      location.href='watch.html?v='+encodeURIComponent(id)+'&t='+encodeURIComponent(TITLE+' — '+ch);
+    }else{note();}
+  });
+})();
