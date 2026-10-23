@@ -1185,3 +1185,75 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
   +'</div>';
   mb.appendChild(d);
 })();
+/* ===== 30) بطاقة «سلاسل الميزان» (PDF) للرياضيات والفيزياء والعلوم ===== */
+(function(){
+  var ser=document.querySelector('.b[data-t="ser"]');
+  if(!ser) return;
+
+  var sj=localStorage.getItem('mishkat_subject')||'';
+  var SJ={'الرياضيات':'math','الفيزياء':'phys','العلوم':'sci'};
+  var s=SJ[sj];
+  if(!s) return;
+
+  var br=localStorage.getItem('mishkat_branch')||'';
+  var ch=localStorage.getItem('mishkat_chapter')||'';
+  var BR={'علوم تجريبية':'se','رياضيات':'m','تقني رياضي':'tm','تسيير واقتصاد':'ge'};
+  var b=BR[br]||'';
+
+  function norm(x){
+    return String(x||'')
+      .replace(/[\u064B-\u065F\u0670]/g,'')
+      .replace(/[أإآ]/g,'ا')
+      .replace(/ى/g,'ي')
+      .replace(/ة/g,'ه')
+      .replace(/\s+/g,' ')
+      .trim()
+      .toLowerCase();
+  }
+
+  /* رمز كل درس، ويُتعرَّف عليه من كلمة داخل اسمه (الترتيب مهم) */
+  var CODES={
+    math:[['seq','المتتاليات'],['func','العدديه'],['exp','اسيه'],['ln','اللوغاريتميه'],['prob','الاحتمالات'],['complex','المركبه'],['div','القسمه'],['prim','الاصليه']],
+    phys:[['ester','استره'],['time','الزمنيه'],['mech','الميكانيك'],['elec','كهرب'],['ph','توازن'],['ph','ph'],['nucl','النوويه'],['osc','اهتزاز']],
+    sci:[['enz','التحفيز'],['photo','الضوئي'],['nerve','العصبي'],['imm','المناعه'],['struct','البنيه'],['prot','تركيب'],['resp','التنفس']]
+  };
+  var nm=norm(ch), code='', list=CODES[s];
+  for(var i=0;i<list.length;i++){
+    if(nm.indexOf(list[i][1])>-1){code=list[i][0];break;}
+  }
+
+  /* الملفات المحتملة بالترتيب: ملف الشعبة والدرس، ثم ملف الدرس، ثم ملف الشعبة والمادة، ثم ملف المادة */
+  var cands=[];
+  if(code){
+    if(b) cands.push('ser-'+b+'-'+s+'-'+code+'.pdf');
+    cands.push('ser-'+s+'-'+code+'.pdf');
+  }
+  if(b) cands.push('ser-'+b+'-'+s+'.pdf');
+  cands.push('ser-'+s+'.pdf');
+
+  /* نسخة جديدة من البطاقة بلا أي حدث قديم */
+  var n2=ser.cloneNode(true);
+  n2.removeAttribute('data-t');
+  n2.setAttribute('data-g','ser');
+  ser.replaceWith(n2);
+
+  var toast=document.getElementById('toast'), tm;
+  function note(){
+    if(!toast) return;
+    toast.textContent='سلاسل الميزان لدرس «'+ch+'» قيد الإعداد، وستُضاف قريباً ✨';
+    toast.classList.add('on');
+    clearTimeout(tm);
+    tm=setTimeout(function(){toast.classList.remove('on');},2800);
+  }
+
+  n2.addEventListener('click',function(){
+    (function tryNext(k){
+      if(k>=cands.length){note();return;}
+      fetch(cands[k],{method:'HEAD',cache:'no-store'}).then(function(r){
+        if(r.ok){
+          location.href='pdfview.html?f='+encodeURIComponent(cands[k])+'&t='+encodeURIComponent('سلاسل الميزان — '+ch);
+        }else{tryNext(k+1);}
+      }).catch(function(){tryNext(k+1);});
+    })(0);
+  });
+})();
