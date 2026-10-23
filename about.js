@@ -1349,7 +1349,7 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
     if(first){t.nodeValue='التمارين والتصحيح';first=false;}else{t.nodeValue='';}
   }
 })();
-/* ===== 32)بطاقة «التصحيح » تصبح «حقيبة  عكاشة» ===== */
+/* ===== 33)بطاقة «التصحيح » تصبح «حقيبة  عكاشة» ===== */
 (function(){
   var ex=document.querySelector('.b[data-t="ex"]');
   if(!ex) return;
