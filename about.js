@@ -1112,3 +1112,76 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
   +'<a class="hx-go" href="https://himma-sigma.vercel.app/" target="_blank" rel="noopener">زيارة منصة همة ←</a>';
   mb.appendChild(d);
 })();
+/* ===== 29) نافذة «تعرّف على المنصة»: عن همة في إطار شامل وبداخله اسطوانات ===== */
+(function(){
+  var mb=document.querySelector('#ov .mb');
+  if(!mb) return;
+
+  /* حذف النسخ القديمة (الكتلتان 27 و28) إن وُجدت */
+  ['hm-card','hx-wrap'].forEach(function(id){
+    var o=document.getElementById(id);
+    if(o) o.remove();
+  });
+  if(document.getElementById('hf-wrap')) return;
+
+  var st=document.createElement('style');
+  st.textContent=''
+  +'.hf{margin-top:22px;opacity:0;transform:translateY(16px);transition:opacity .55s ease .6s,transform .55s ease .6s}'
+  +'.ov.show .hf{opacity:1;transform:none}'
+  /* الإطار الشامل */
+  +'.hf-frame{border-radius:34px;padding:18px 14px;background:linear-gradient(160deg,#0a1f45 0%,#050b18 60%,#010307 100%);border:2px solid rgba(148,187,255,.38);box-shadow:0 18px 40px rgba(0,8,30,.6),inset 0 1px 0 rgba(255,255,255,.08)}'
+  +'.hf-head{text-align:center;margin-bottom:14px}'
+  +'.hf-tag{display:inline-block;background:#fff;color:#0b2a5b;padding:6px 18px;border-radius:999px;font-weight:800;font-size:14.5px;box-shadow:0 6px 14px rgba(0,0,0,.25)}'
+  +'.hf-list{display:grid;gap:10px}'
+  /* الاسطوانات */
+  +'.hf-p{display:flex;align-items:center;gap:12px;padding:11px 14px 11px 16px;border-radius:28px;text-align:right;color:#eaf2ff;'
+  +'background:linear-gradient(135deg,#17407f 0%,#0c2350 55%,#071329 100%);border:1px solid rgba(148,187,255,.28);'
+  +'box-shadow:0 8px 18px rgba(0,8,30,.4),inset 0 1px 0 rgba(255,255,255,.1);'
+  +'opacity:0;transform:translateY(12px);transition:opacity .5s ease var(--d,.8s),transform .5s ease var(--d,.8s)}'
+  +'.ov.show .hf-p{opacity:1;transform:none}'
+  +'.hf-b{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;direction:ltr;font-weight:800;font-size:15px;color:var(--ac,#38bdf8);background:rgba(255,255,255,.07);border:1.5px solid var(--ac,#38bdf8)}'
+  +'.hf-x{min-width:0}'
+  +'.hf-x b{display:block;font-size:15px;font-weight:800;line-height:1.5;color:#fff;text-shadow:none}'
+  +'.hf-x p{margin:2px 0 0;font-size:13.5px;line-height:1.75;font-weight:500;color:#c3d6f3;text-shadow:none}'
+  +'.hf-note .hf-x p{margin:0;color:#f6dca3;font-weight:600}'
+  +'.hf-go{display:block;width:fit-content;margin:16px auto 0;background:#fff;color:#0b2a5b;padding:10px 26px;border-radius:999px;font-weight:800;font-size:14px;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3)}'
+  +'.hf-go:hover,.hf-go:focus-visible{background:#e6efff}'
+  +'@media (prefers-reduced-motion:reduce){.hf,.hf-p{opacity:1;transform:none;transition:none}}';
+  document.head.appendChild(st);
+
+  var d=document.createElement('div');
+  d.id='hf-wrap';
+  d.className='hf';
+  d.innerHTML=''
+  +'<div class="hf-frame">'
+  +'<div class="hf-head"><span class="hf-tag">🌟 عن منصة همة</span></div>'
+  +'<div class="hf-list">'
+
+  +'<div class="hf-p" style="--ac:#38bdf8;--d:.75s"><span class="hf-b">01</span><div class="hf-x">'
+  +'<b>مجانية بالكامل</b>'
+  +'<p>لا حسابات ولا اشتراكات ولا دفع. تموّل المنصة بإعلانات خفيفة لا تعيق المراجعة.</p>'
+  +'</div></div>'
+
+  +'<div class="hf-p" style="--ac:#fbbf24;--d:.9s"><span class="hf-b">02</span><div class="hf-x">'
+  +'<b>مرتبة كما تدرس</b>'
+  +'<p>الشعبة ← المادة ← الوحدة ← نوع المورد. تصل إلى ما تريده في خطوات قليلة.</p>'
+  +'</div></div>'
+
+  +'<div class="hf-p" style="--ac:#34d399;--d:1.05s"><span class="hf-b">03</span><div class="hf-x">'
+  +'<b>مصممة للهاتف</b>'
+  +'<p>واجهة عربية خفيفة وسريعة، مع تنقل سفلي يسهل الوصول إليه بإبهام واحد.</p>'
+  +'</div></div>'
+
+  +'<div class="hf-p hf-note" style="--ac:#f59e0b;--d:1.2s"><span class="hf-b">⏳</span><div class="hf-x">'
+  +'<p>المحتوى يُضاف تدريجيًا. الأقسام التي تحمل علامة «قيد الإضافة» جاهزة هيكليًا وسيُنشر فيها المحتوى الحقيقي فور تجهيزه</p>'
+  +'</div></div>'
+
+  +'<div class="hf-p" style="--ac:#93c5fd;--d:1.35s"><span class="hf-b">👨‍💻</span><div class="hf-x">'
+  +'<b>مطور و مؤسس همة: داودي محمد جلال الدين</b>'
+  +'</div></div>'
+
+  +'</div>'
+  +'<a class="hf-go" href="https://himma-sigma.vercel.app/" target="_blank" rel="noopener">زيارة منصة همة ←</a>'
+  +'</div>';
+  mb.appendChild(d);
+})();
