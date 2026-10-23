@@ -1177,7 +1177,7 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
   +'</div></div>'
 
   +'<div class="hf-p" style="--ac:#93c5fd;--d:1.35s"><span class="hf-b">👨‍💻</span><div class="hf-x">'
-  +'<b>مطور و مؤسس همة: داودي محمد جلال الدين</b>'
+  +'<b>مؤسس ومطور منصة همة: داودي محمد جلال الدين</b>'
   +'</div></div>'
 
   +'</div>'
