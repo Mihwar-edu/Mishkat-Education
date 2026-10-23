@@ -1267,7 +1267,7 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
   var SJ={'الرياضيات':'math','الفيزياء':'phys','العلوم':'sci'};
   var s=SJ[sj]||'';
   var TITLE='حقيبة عكاشة (فيديو)';
-
+  if(sj==='الفيزياء') return;
   /* ✏️ روابط حقيبة عكاشة: رمز الدرس : معرّف الفيديو (الجزء بعد youtu.be/ وقبل علامة ؟)
      رموز دروس الرياضيات: func exp ln seq prob complex div prim
      رموز دروس الفيزياء: time mech elec ph nucl ester osc */
