@@ -1050,3 +1050,65 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
   +'</div>';
   mb.appendChild(d);
 })();
+/* ===== 28) نافذة «تعرّف على المنصة»: عن همة، كل عنصر في اسطوانة خاصة ===== */
+(function(){
+  var mb=document.querySelector('#ov .mb');
+  if(!mb) return;
+
+  /* حذف البطاقة القديمة (الكتلة 27) إن وُجدت */
+  var old=document.getElementById('hm-card');
+  if(old) old.remove();
+  if(document.getElementById('hx-wrap')) return;
+
+  var st=document.createElement('style');
+  st.textContent=''
+  +'.hx{margin-top:22px;display:grid;gap:10px}'
+  +'.hx-head{text-align:center;margin-bottom:2px}'
+  +'.hx-tag{display:inline-block;background:#fff;color:#0b2a5b;padding:6px 18px;border-radius:999px;font-weight:800;font-size:14.5px;box-shadow:0 6px 14px rgba(0,0,0,.2)}'
+  +'.hx-p{display:flex;align-items:center;gap:12px;padding:12px 16px 12px 18px;border-radius:30px;text-align:right;color:#eaf2ff;'
+  +'background:linear-gradient(135deg,#10305f 0%,#08142e 55%,#03060f 100%);border:1px solid rgba(148,187,255,.25);'
+  +'box-shadow:0 10px 22px rgba(0,8,30,.45),inset 0 1px 0 rgba(255,255,255,.08);'
+  +'opacity:0;transform:translateY(14px);transition:opacity .5s ease var(--d,.7s),transform .5s ease var(--d,.7s)}'
+  +'.ov.show .hx-p{opacity:1;transform:none}'
+  +'.hx-b{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;direction:ltr;font-weight:800;font-size:15px;color:var(--ac,#38bdf8);background:rgba(255,255,255,.06);border:1.5px solid var(--ac,#38bdf8)}'
+  +'.hx-x{min-width:0}'
+  +'.hx-x b{display:block;font-size:15px;font-weight:800;line-height:1.5;color:#fff;text-shadow:none}'
+  +'.hx-x p{margin:2px 0 0;font-size:13.5px;line-height:1.75;font-weight:500;color:#b9cdee;text-shadow:none}'
+  +'.hx-note .hx-x p{margin:0;color:#f6dca3;font-weight:600}'
+  +'.hx-go{justify-self:center;display:inline-block;margin-top:6px;background:#fff;color:#0b2a5b;padding:10px 26px;border-radius:999px;font-weight:800;font-size:14px;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.28)}'
+  +'.hx-go:hover,.hx-go:focus-visible{background:#e6efff}'
+  +'@media (prefers-reduced-motion:reduce){.hx-p{opacity:1;transform:none;transition:none}}';
+  document.head.appendChild(st);
+
+  var d=document.createElement('div');
+  d.id='hx-wrap';
+  d.className='hx';
+  d.innerHTML=''
+  +'<div class="hx-head"><span class="hx-tag">🌟 عن منصة همة</span></div>'
+
+  +'<div class="hx-p" style="--ac:#38bdf8;--d:.65s"><span class="hx-b">01</span><div class="hx-x">'
+  +'<b>مجانية بالكامل</b>'
+  +'<p>لا حسابات ولا اشتراكات ولا دفع. تموّل المنصة بإعلانات خفيفة لا تعيق المراجعة.</p>'
+  +'</div></div>'
+
+  +'<div class="hx-p" style="--ac:#fbbf24;--d:.8s"><span class="hx-b">02</span><div class="hx-x">'
+  +'<b>مرتبة كما تدرس</b>'
+  +'<p>الشعبة ← المادة ← الوحدة ← نوع المورد. تصل إلى ما تريده في خطوات قليلة.</p>'
+  +'</div></div>'
+
+  +'<div class="hx-p" style="--ac:#34d399;--d:.95s"><span class="hx-b">03</span><div class="hx-x">'
+  +'<b>مصممة للهاتف</b>'
+  +'<p>واجهة عربية خفيفة وسريعة، مع تنقل سفلي يسهل الوصول إليه بإبهام واحد.</p>'
+  +'</div></div>'
+
+  +'<div class="hx-p hx-note" style="--ac:#f59e0b;--d:1.1s"><span class="hx-b">⏳</span><div class="hx-x">'
+  +'<p>المحتوى يُضاف تدريجيًا. الأقسام التي تحمل علامة «قيد الإضافة» جاهزة هيكليًا وسيُنشر فيها المحتوى الحقيقي فور تجهيزه</p>'
+  +'</div></div>'
+
+  +'<div class="hx-p" style="--ac:#93c5fd;--d:1.25s"><span class="hx-b">👨‍💻</span><div class="hx-x">'
+  +'<b>المطور: داودي محمد جلال الدين</b>'
+  +'</div></div>'
+
+  +'<a class="hx-go" href="https://himma-sigma.vercel.app/" target="_blank" rel="noopener">زيارة منصة همة ←</a>';
+  mb.appendChild(d);
+})();
