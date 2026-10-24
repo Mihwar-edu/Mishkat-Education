@@ -1349,3 +1349,129 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
     if(first){t.nodeValue='التمارين والتصحيح';first=false;}else{t.nodeValue='';}
   }
 })();
+/* ===== 34) بطاقات صفحة الدرس: الملخصات | التمارين والتصحيح | حقيبة عكاشة | بطاقة المادة ===== */
+(function(){
+  if(!/lesson\.html$/.test(location.pathname)) return;
+
+  var sj=localStorage.getItem('mishkat_subject')||'';
+  var ch=localStorage.getItem('mishkat_chapter')||'';
+  var br=localStorage.getItem('mishkat_branch')||'';
+  var SJ={'الرياضيات':'math','الفيزياء':'phys','العلوم':'sci'};
+  var s=SJ[sj];
+  if(!s) return;
+
+  var grid=document.querySelector('.wrap > .grid');
+  if(!grid) return;
+  var cards=[].slice.call(grid.children).filter(function(c){return c.classList.contains('b');});
+  if(cards.length<4) return;
+
+  function norm(x){
+    return String(x||'')
+      .replace(/[\u064B-\u065F\u0670]/g,'')
+      .replace(/[أإآ]/g,'ا')
+      .replace(/ى/g,'ي')
+      .replace(/ة/g,'ه')
+      .replace(/\s+/g,' ')
+      .trim()
+      .toLowerCase();
+  }
+  function setLabel(el,text){
+    var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null);
+    var first=true, tn;
+    while((tn=tw.nextNode())){
+      if(!tn.nodeValue.trim()) continue;
+      if(first){tn.nodeValue=text;first=false;}else{tn.nodeValue='';}
+    }
+  }
+  /* نسخة جديدة من البطاقة بلا أي حدث قديم، وبالاسم المطلوب */
+  function fresh(card,label,tag){
+    var n=card.cloneNode(true);
+    n.removeAttribute('data-t');
+    n.setAttribute('data-g',tag);
+    setLabel(n,label);
+    card.replaceWith(n);
+    return n;
+  }
+
+  var toast=document.getElementById('toast'), tm;
+  function note(msg){
+    if(!toast) return;
+    toast.textContent=msg;
+    toast.classList.add('on');
+    clearTimeout(tm);
+    tm=setTimeout(function(){toast.classList.remove('on');},2800);
+  }
+
+  /* رمز كل درس، ويُتعرَّف عليه من كلمة داخل اسمه (الترتيب مهم) */
+  var CODES={
+    math:[['seq','المتتاليات'],['func','العدديه'],['exp','اسيه'],['ln','اللوغاريتميه'],['prob','الاحتمالات'],['complex','المركبه'],['div','القسمه'],['prim','الاصليه']],
+    phys:[['ester','استره'],['time','الزمنيه'],['mech','الميكانيك'],['elec','كهرب'],['ph','توازن'],['ph','ph'],['nucl','النوويه'],['osc','اهتزاز']],
+    sci:[['enz','التحفيز'],['photo','الضوئي'],['nerve','العصبي'],['imm','المناعه'],['struct','البنيه'],['prot','تركيب'],['resp','التنفس']]
+  };
+  var nm=norm(ch), list=CODES[s], code='';
+  for(var i=0;i<list.length;i++){
+    if(nm.indexOf(list[i][1])>-1){code=list[i][0];break;}
+  }
+
+  /* 2) بطاقة التمارين: الاسم فقط */
+  setLabel(cards[1],'التمارين والتصحيح');
+
+  /* 3) حقيبة عكاشة (فيديو) */
+  /* ✏️ روابط حقيبة عكاشة: رمز الدرس : معرّف الفيديو (الجزء بعد youtu.be/ وقبل علامة ؟)
+     رموز دروس الرياضيات: func exp ln seq prob complex div prim
+     رموز دروس الفيزياء: time mech elec ph nucl ester osc */
+  var OK={
+    sci:{
+      prot:'Lg7awTpB74s',
+      struct:'hRmKwvYBK0o',
+      enz:'b-PzhqsxESo',
+      imm:'MCl6EpL0dWA',
+      nerve:'Jlho7146fJw',
+      photo:'sXE2BTy7tsY',
+      resp:'sXE2BTy7tsY'
+    },
+    math:{},
+    phys:{}
+  };
+  var okTitle='حقيبة عكاشة (فيديو)';
+  var okId=(OK[s]&&OK[s][code])||'';
+  var c3=fresh(cards[2],okTitle,'okacha');
+  c3.addEventListener('click',function(){
+    if(okId){
+      location.href='watch.html?v='+encodeURIComponent(okId)+'&t='+encodeURIComponent(okTitle+' — '+ch);
+    }else{
+      note('حقيبة عكاشة لدرس «'+ch+'» قيد الإعداد، وستُضاف قريباً ✨');
+    }
+  });
+
+  /* 4) البطاقة الرابعة حسب المادة */
+  if(s==='phys'){
+    /* الفيزياء: سلاسل الميزان (ملفات PDF) */
+    var BR={'علوم تجريبية':'se','رياضيات':'m','تقني رياضي':'tm','تسيير واقتصاد':'ge'};
+    var b=BR[br]||'';
+    var cands=[];
+    if(code){
+      if(b) cands.push('ser-'+b+'-phys-'+code+'.pdf');
+      cands.push('ser-phys-'+code+'.pdf');
+    }
+    if(b) cands.push('ser-'+b+'-phys.pdf');
+    cands.push('ser-phys.pdf');
+    var c4=fresh(cards[3],'سلاسل الميزان','ser');
+    c4.addEventListener('click',function(){
+      (function tryNext(k){
+        if(k>=cands.length){note('سلاسل الميزان لدرس «'+ch+'» قيد الإعداد، وستُضاف قريباً ✨');return;}
+        fetch(cands[k],{method:'HEAD',cache:'no-store'}).then(function(r){
+          if(r.ok){
+            location.href='pdfview.html?f='+encodeURIComponent(cands[k])+'&t='+encodeURIComponent('سلاسل الميزان — '+ch);
+          }else{tryNext(k+1);}
+        }).catch(function(){tryNext(k+1);});
+      })(0);
+    });
+  }else{
+    var label=(s==='math')?'مواضيع أشبال الأمة':'النصوص العلمية';
+    var c4b=fresh(cards[3],label,'extra');
+    c4b.addEventListener('click',function(){
+      note('«'+label+'» لدرس «'+ch+'» قيد الإعداد، وستُضاف قريباً ✨');
+    });
+  }
+})();
