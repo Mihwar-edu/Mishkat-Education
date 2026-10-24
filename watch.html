@@ -41,6 +41,23 @@ a.chn:hover b,a.chn:focus-visible b{color:var(--blue)}
 .abtn{display:inline-block;width:auto;margin:0;padding:9px 18px;border:1.5px solid var(--blue);border-radius:999px;background:var(--card);color:var(--blue);font:inherit;font-size:13.5px;font-weight:700;cursor:pointer;text-decoration:none}
 .abtn:hover,.abtn:focus-visible{background:var(--blue);color:#fff}
 
+/* الأزرار وبجانبها فيديوهات الدرس المصغرة */
+.mid{display:flex;gap:12px;align-items:flex-start;margin-top:14px}
+.mid .acts{margin-top:0;flex:1;min-width:0}
+.mid.has-list .acts{flex-direction:column;flex-wrap:nowrap;align-items:stretch}
+.mid.has-list .abtn{text-align:center}
+.vl{flex:none;width:112px;display:grid;gap:10px}
+.vx{display:block;text-decoration:none;color:inherit;text-align:center}
+.vx-i{position:relative;display:block;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000;border:2px solid var(--blue)}
+.vx-i img{display:block;width:100%;height:100%;object-fit:cover}
+.vx-i i{position:absolute;inset:0;display:grid;place-items:center;font-style:normal;color:#fff;font-size:18px;background:rgba(0,0,0,.28)}
+.vx-n{display:block;margin-top:4px;font-size:12.5px;font-weight:800;color:var(--ink)}
+.vx:hover .vx-i,.vx:focus-visible .vx-i{border-color:#ff9f1c}
+@media (max-width:420px){
+  .vl{width:100px}
+  .mid.has-list .abtn{padding:9px 10px;font-size:13px}
+}
+
 .cms h3{font-size:16px;margin:0 0 6px}
 .cm{display:flex;gap:10px;padding:12px 0;border-top:1px solid var(--line)}
 .cm:first-of-type{border-top:0}
@@ -86,12 +103,16 @@ a.chn:hover b,a.chn:focus-visible b{color:var(--blue)}
         <a class="subbtn" id="subbtn" href="#" target="_blank" rel="noopener" data-ext>🔔 اشترك</a>
       </div>
       <div class="stats" id="stats" hidden></div>
-      <div class="acts">
-        <button class="abtn" id="fsb" type="button">⛶ ملء الشاشة بالعرض</button>
-        <a class="abtn" id="likeb" href="#" target="_blank" rel="noopener" data-ext>👍 أعجبني على يوتيوب</a>
-        <a class="abtn" id="cmb" href="#" target="_blank" rel="noopener" data-ext>💬 التعليقات</a>
-        <button class="abtn" id="shareb" type="button">↗ مشاركة</button>
-        <a class="abtn" id="openb" href="#" target="_blank" rel="noopener" data-ext>▶ فتح في يوتيوب</a>
+
+      <div class="mid" id="mid">
+        <div class="acts">
+          <button class="abtn" id="fsb" type="button">⛶ ملء الشاشة بالعرض</button>
+          <a class="abtn" id="likeb" href="#" target="_blank" rel="noopener" data-ext>👍 أعجبني على يوتيوب</a>
+          <a class="abtn" id="cmb" href="#" target="_blank" rel="noopener" data-ext>💬 التعليقات</a>
+          <button class="abtn" id="shareb" type="button">↗ مشاركة</button>
+          <a class="abtn" id="openb" href="#" target="_blank" rel="noopener" data-ext>▶ فتح في يوتيوب</a>
+        </div>
+        <div class="vl" id="vl" hidden></div>
       </div>
     </div>
 
@@ -203,6 +224,11 @@ a.chn:hover b,a.chn:focus-visible b{color:var(--blue)}
   var ch=localStorage.getItem('mishkat_chapter')||'';
   var br=localStorage.getItem('mishkat_branch')||'';
 
+  /* قائمة فيديوهات الدرس (إن وُجد أكثر من فيديو) */
+  var L=(q.get('l')||'').split(',').map(function(x){
+    return x.replace(/[^A-Za-z0-9_-]/g,'').slice(0,20);
+  }).filter(Boolean);
+
   /* التعرّف على الأستاذ من اسم البطاقة */
   var T=null;
   for(var i=0;i<TEACHERS.length;i++){
@@ -227,6 +253,37 @@ a.chn:hover b,a.chn:focus-visible b{color:var(--blue)}
   $('cmb').href=ytUrl;
   $('openb').href=ytUrl;
   $('cmall').href=ytUrl;
+
+  /* صور مصغرة لبقية فيديوهات الدرس */
+  if(L.length>1){
+    var vl=$('vl');
+    L.forEach(function(vid,k){
+      if(vid===id) return;
+      var a=document.createElement('a');
+      a.className='vx';
+      a.href='watch.html?v='+encodeURIComponent(vid)+'&l='+encodeURIComponent(L.join(','))+(label?'&t='+encodeURIComponent(label):'');
+      var box=document.createElement('span');
+      box.className='vx-i';
+      var img=document.createElement('img');
+      img.src='https://i.ytimg.com/vi/'+vid+'/mqdefault.jpg';
+      img.alt='';
+      img.loading='lazy';
+      var pl=document.createElement('i');
+      pl.textContent='▶';
+      box.appendChild(img);
+      box.appendChild(pl);
+      var nm=document.createElement('span');
+      nm.className='vx-n';
+      nm.textContent='فيديو '+(k+1);
+      a.appendChild(box);
+      a.appendChild(nm);
+      vl.appendChild(a);
+    });
+    if(vl.children.length){
+      vl.hidden=false;
+      $('mid').classList.add('has-list');
+    }
+  }
 
   /* اسم الأستاذ وقناته */
   if(T){
