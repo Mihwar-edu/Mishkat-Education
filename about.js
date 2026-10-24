@@ -1475,3 +1475,162 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
     });
   }
 })();
+/* ===== 35) حقيبة عكاشة: روابط الرياضيات والعلوم مع اختيار الجزء ===== */
+(function(){
+  if(!/lesson\.html$/.test(location.pathname)) return;
+
+  var sj=localStorage.getItem('mishkat_subject')||'';
+  var ch=localStorage.getItem('mishkat_chapter')||'';
+  var SJ={'الرياضيات':'math','الفيزياء':'phys','العلوم':'sci'};
+  var s=SJ[sj];
+  if(!s) return;
+
+  var grid=document.querySelector('.wrap > .grid');
+  if(!grid) return;
+  var cards=[].slice.call(grid.children).filter(function(c){return c.classList.contains('b');});
+  if(cards.length<4) return;
+
+  var TITLE='حقيبة عكاشة (فيديو)';
+
+  /* ✏️ روابط حقيبة عكاشة: رمز الدرس : [معرّفات الفيديوهات] (الجزء بعد youtu.be/ وقبل علامة ؟)
+     رموز دروس الرياضيات: func exp ln seq prob complex div prim
+     رموز دروس الفيزياء: time mech elec ph nucl ester osc */
+  var OK={
+    sci:{
+      prot:['Lg7awTpB74s'],
+      struct:['hRmKwvYBK0o'],
+      enz:['b-PzhqsxESo'],
+      imm:['MCl6EpL0dWA'],
+      nerve:['Jlho7146fJw'],
+      photo:['sXE2BTy7tsY'],
+      resp:['sXE2BTy7tsY']
+    },
+    math:{
+      exp:['PrRJ68feZ_M','V7JrHtM2x8o','mLy_d2dGmo0'],
+      ln:['MGvyXFfEKS0'],
+      seq:['oemNJdoG3ws','uFDphwlVRRE'],
+      prob:['QICDYpPeSjk'],
+      complex:['a5U2BhobNf8','ga8egmIIht4'],
+      div:['Hjz42I9Z7us','oP9Wif9e16Y']
+    },
+    phys:{}
+  };
+
+  function norm(x){
+    return String(x||'')
+      .replace(/[\u064B-\u065F\u0670]/g,'')
+      .replace(/[أإآ]/g,'ا')
+      .replace(/ى/g,'ي')
+      .replace(/ة/g,'ه')
+      .replace(/\s+/g,' ')
+      .trim()
+      .toLowerCase();
+  }
+  var CODES={
+    math:[['seq','المتتاليات'],['func','العدديه'],['exp','اسيه'],['ln','اللوغاريتميه'],['prob','الاحتمالات'],['complex','المركبه'],['div','القسمه'],['prim','الاصليه']],
+    phys:[['ester','استره'],['time','الزمنيه'],['mech','الميكانيك'],['elec','كهرب'],['ph','توازن'],['ph','ph'],['nucl','النوويه'],['osc','اهتزاز']],
+    sci:[['enz','التحفيز'],['photo','الضوئي'],['nerve','العصبي'],['imm','المناعه'],['struct','البنيه'],['prot','تركيب'],['resp','التنفس']]
+  };
+  var nm=norm(ch), list=CODES[s], code='';
+  for(var i=0;i<list.length;i++){
+    if(nm.indexOf(list[i][1])>-1){code=list[i][0];break;}
+  }
+  var ids=(OK[s]&&OK[s][code])||[];
+  if(typeof ids==='string') ids=[ids];
+
+  function setLabel(el,text){
+    var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null);
+    var first=true, tn;
+    while((tn=tw.nextNode())){
+      if(!tn.nodeValue.trim()) continue;
+      if(first){tn.nodeValue=text;first=false;}else{tn.nodeValue='';}
+    }
+  }
+
+  /* نسخة جديدة من البطاقة الثالثة بلا أي حدث قديم */
+  var n=cards[2].cloneNode(true);
+  n.removeAttribute('data-t');
+  n.setAttribute('data-g','okacha');
+  setLabel(n,TITLE);
+  cards[2].replaceWith(n);
+
+  var toast=document.getElementById('toast'), tm;
+  function note(msg){
+    if(!toast) return;
+    toast.textContent=msg;
+    toast.classList.add('on');
+    clearTimeout(tm);
+    tm=setTimeout(function(){toast.classList.remove('on');},2800);
+  }
+
+  function watchUrl(id,part){
+    return 'watch.html?v='+encodeURIComponent(id)+'&t='+encodeURIComponent(TITLE+' — '+ch+(part?' — الجزء '+part:''));
+  }
+
+  /* نافذة اختيار الجزء عند وجود أكثر من فيديو */
+  var st=document.createElement('style');
+  st.textContent=''
+  +'.okv{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(8,16,28,.55);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px)}'
+  +'.okv-c{position:relative;width:min(380px,100%);background:var(--card,#fff);color:var(--ink,#101828);border:2px solid #0a84ff;border-radius:22px;padding:24px 18px 18px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.35);direction:rtl}'
+  +'.okv-c h3{font-size:18px;font-weight:800;margin:0 0 4px;color:inherit}'
+  +'.okv-c p{margin:0 0 14px;color:var(--muted,#667085);font-size:14px;line-height:1.6}'
+  +'.okv-l{display:grid;gap:10px}'
+  +'.okv-b{display:block;padding:12px 16px;border-radius:999px;background:#0a84ff;color:#fff;font-weight:800;font-size:15px;text-decoration:none}'
+  +'.okv-b:hover,.okv-b:focus-visible{background:#0870d8}'
+  +'.okv-x{position:absolute;top:10px;left:10px;width:34px;height:34px;border:0;border-radius:50%;background:rgba(10,132,255,.12);color:#0a84ff;font-size:16px;cursor:pointer}';
+  document.head.appendChild(st);
+
+  function chooser(){
+    var ov=document.createElement('div');
+    ov.className='okv';
+    var box=document.createElement('div');
+    box.className='okv-c';
+    box.setAttribute('role','dialog');
+    box.setAttribute('aria-modal','true');
+    var x=document.createElement('button');
+    x.type='button';
+    x.className='okv-x';
+    x.setAttribute('aria-label','إغلاق');
+    x.textContent='✕';
+    var h=document.createElement('h3');
+    h.textContent=TITLE;
+    var p=document.createElement('p');
+    p.textContent=ch;
+    var l=document.createElement('div');
+    l.className='okv-l';
+    ids.forEach(function(id,k){
+      var a=document.createElement('a');
+      a.className='okv-b';
+      a.href=watchUrl(id,k+1);
+      a.textContent='▶ الجزء '+(k+1);
+      l.appendChild(a);
+    });
+    box.appendChild(x);
+    box.appendChild(h);
+    box.appendChild(p);
+    box.appendChild(l);
+    ov.appendChild(box);
+    document.body.appendChild(ov);
+
+    function close(){
+      ov.remove();
+      document.removeEventListener('keydown',onKey);
+    }
+    function onKey(e){if(e.key==='Escape') close();}
+    x.addEventListener('click',close);
+    ov.addEventListener('click',function(e){if(e.target===ov) close();});
+    document.addEventListener('keydown',onKey);
+  }
+
+  n.addEventListener('click',function(){
+    if(!ids.length){
+      note('حقيبة عكاشة لدرس «'+ch+'» قيد الإعداد، وستُضاف قريباً ✨');
+      return;
+    }
+    if(ids.length===1){
+      location.href=watchUrl(ids[0],0);
+      return;
+    }
+    chooser();
+  });
+})();
