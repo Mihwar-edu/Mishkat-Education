@@ -1634,3 +1634,102 @@ var MK={C1:'#0a7ba0',C2:'#0f9bbd',C3:'#0b8cae',GOLD1:'#ffc233',GOLD2:'#ff9f1c',G
     chooser();
   });
 })();
+/* ===== 36) حقيبة عكاشة: يفتح الفيديو الأول، وبقية الفيديوهات مصغّرة في صفحة المشاهدة ===== */
+(function(){
+  if(!/lesson\.html$/.test(location.pathname)) return;
+
+  var sj=localStorage.getItem('mishkat_subject')||'';
+  var ch=localStorage.getItem('mishkat_chapter')||'';
+  var SJ={'الرياضيات':'math','الفيزياء':'phys','العلوم':'sci'};
+  var s=SJ[sj];
+  if(!s) return;
+
+  var grid=document.querySelector('.wrap > .grid');
+  if(!grid) return;
+  var cards=[].slice.call(grid.children).filter(function(c){return c.classList.contains('b');});
+  if(cards.length<4) return;
+
+  var TITLE='حقيبة عكاشة (فيديو)';
+
+  /* ✏️ روابط حقيبة عكاشة: رمز الدرس : [معرّفات الفيديوهات] (الجزء بعد youtu.be/ وقبل علامة ؟)
+     رموز دروس الرياضيات: func exp ln seq prob complex div prim
+     رموز دروس الفيزياء: time mech elec ph nucl ester osc */
+  var OK={
+    sci:{
+      prot:['Lg7awTpB74s'],
+      struct:['hRmKwvYBK0o'],
+      enz:['b-PzhqsxESo'],
+      imm:['MCl6EpL0dWA'],
+      nerve:['Jlho7146fJw'],
+      photo:['sXE2BTy7tsY'],
+      resp:['sXE2BTy7tsY']
+    },
+    math:{
+      exp:['PrRJ68feZ_M','V7JrHtM2x8o','mLy_d2dGmo0'],
+      ln:['MGvyXFfEKS0'],
+      seq:['oemNJdoG3ws','uFDphwlVRRE'],
+      prob:['QICDYpPeSjk'],
+      complex:['a5U2BhobNf8','ga8egmIIht4'],
+      div:['Hjz42I9Z7us','oP9Wif9e16Y'],
+      prim:['PrRJ68feZ_M','V7JrHtM2x8o','mLy_d2dGmo0','MGvyXFfEKS0']
+    },
+    phys:{}
+  };
+
+  function norm(x){
+    return String(x||'')
+      .replace(/[\u064B-\u065F\u0670]/g,'')
+      .replace(/[أإآ]/g,'ا')
+      .replace(/ى/g,'ي')
+      .replace(/ة/g,'ه')
+      .replace(/\s+/g,' ')
+      .trim()
+      .toLowerCase();
+  }
+  var CODES={
+    math:[['seq','المتتاليات'],['func','العدديه'],['exp','اسيه'],['ln','اللوغاريتميه'],['prob','الاحتمالات'],['complex','المركبه'],['div','القسمه'],['prim','الاصليه']],
+    phys:[['ester','استره'],['time','الزمنيه'],['mech','الميكانيك'],['elec','كهرب'],['ph','توازن'],['ph','ph'],['nucl','النوويه'],['osc','اهتزاز']],
+    sci:[['enz','التحفيز'],['photo','الضوئي'],['nerve','العصبي'],['imm','المناعه'],['struct','البنيه'],['prot','تركيب'],['resp','التنفس']]
+  };
+  var nm=norm(ch), list=CODES[s], code='';
+  for(var i=0;i<list.length;i++){
+    if(nm.indexOf(list[i][1])>-1){code=list[i][0];break;}
+  }
+  var ids=(OK[s]&&OK[s][code])||[];
+  if(typeof ids==='string') ids=[ids];
+
+  function setLabel(el,text){
+    var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null);
+    var first=true, tn;
+    while((tn=tw.nextNode())){
+      if(!tn.nodeValue.trim()) continue;
+      if(first){tn.nodeValue=text;first=false;}else{tn.nodeValue='';}
+    }
+  }
+
+  /* نسخة جديدة من البطاقة الثالثة بلا أي حدث قديم (تلغي أثر الكتلتين 34 و35) */
+  var n=cards[2].cloneNode(true);
+  n.removeAttribute('data-t');
+  n.setAttribute('data-g','okacha');
+  setLabel(n,TITLE);
+  cards[2].replaceWith(n);
+
+  var toast=document.getElementById('toast'), tm;
+  function note(msg){
+    if(!toast) return;
+    toast.textContent=msg;
+    toast.classList.add('on');
+    clearTimeout(tm);
+    tm=setTimeout(function(){toast.classList.remove('on');},2800);
+  }
+
+  n.addEventListener('click',function(){
+    if(!ids.length){
+      note('حقيبة عكاشة لدرس «'+ch+'» قيد الإعداد، وستُضاف قريباً ✨');
+      return;
+    }
+    location.href='watch.html?v='+encodeURIComponent(ids[0])
+      +(ids.length>1?'&l='+encodeURIComponent(ids.join(',')):'')
+      +'&t='+encodeURIComponent(TITLE+' — '+ch);
+  });
+})();
